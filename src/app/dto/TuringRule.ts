@@ -1,9 +1,11 @@
 export class TuringRule{
-    fromState: string;
+    id: number;
+
+    fromState: number;
 
     readCharacter: string;
 
-    toState: string;
+    toState: number;
 
     writeCharacter: string;
 

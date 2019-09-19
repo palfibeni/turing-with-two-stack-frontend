@@ -12,7 +12,7 @@ export class TuringMachineService {
 
     constructor(private httpClient: HttpClient) {}
 
-    public getAnBnCnTuringMachne() : Observable<TuringMachine>{
+    public getAnBnCnTuringMachine() : Observable<TuringMachine>{
         return this.httpClient.get<TuringMachine>(`${this.apiURL}/AnBnCnTuringMachine`);
     }
 }

@@ -10,8 +10,12 @@
     "@angular/platform-browser": "^8.0.0",
     "@angular/platform-browser-dynamic": "^8.0.0",
     "@angular/router": "^8.0.0",
+    "ag-grid-angular": "^21.2.1",
+    "ag-grid-community": "^21.2.1",
+    "bootstrap": "^4.3.1",
     "core-js": "2",
     "rxjs": "^6.5.2",
+    "underscore": "^1.9.1",
     "zone.js": "^0.9.1"
   },
   "scripts": {

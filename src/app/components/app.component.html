@@ -1,4 +1,14 @@
-<hello name="{{ name }}"></hello>
-<p>
-  Start editing to see some magic happen :)
-</p>
+<div class="container">
+    <hello name="Beni"></hello>
+<!--    <label>-->
+<!--        Start state:-->
+<!--        <input type="text" [(ngModel)]="startStateInput">-->
+<!--    </label>-->
+
+    <ag-grid-angular
+            style="height: 500px;"
+            class="ag-theme-balham"
+            [rowData]="states"
+            [columnDefs]="stateColumnDefs">
+    </ag-grid-angular>
+</div>
