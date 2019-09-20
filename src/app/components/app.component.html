@@ -1,14 +1,24 @@
 <div class="container">
     <hello name="Beni"></hello>
-<!--    <label>-->
-<!--        Start state:-->
-<!--        <input type="text" [(ngModel)]="startStateInput">-->
-<!--    </label>-->
+    <label>
+        Input:
+        <input type="text" [(ngModel)]="input">
+    </label>
+    <button class="mat-button mat-button-base" (click)="calculate()">
+        <span class="mat-button-wrapper">Send</span>
+    </button>
 
     <ag-grid-angular
             style="height: 500px;"
             class="ag-theme-balham"
             [rowData]="states"
             [columnDefs]="stateColumnDefs">
+    </ag-grid-angular>
+
+    <ag-grid-angular
+            style="height: 500px;"
+            class="ag-theme-balham"
+            [rowData]="rules"
+            [columnDefs]="ruleColumnDefs">
     </ag-grid-angular>
 </div>
