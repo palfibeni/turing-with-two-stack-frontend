@@ -6,9 +6,10 @@ import {TuringMachine} from "../dto/TuringMachine";
 import {TuringRule} from "../dto/TuringRule";
 import {MachineState} from "../dto/MachineState";
 import {ToasterConfig, ToasterService} from "angular2-toaster";
+import {Router} from "@angular/router";
 
 @Component({
-    selector: 'my-app',
+    selector: 'app-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
@@ -21,8 +22,9 @@ export class MainComponent {
 
     public input: String;
 
-    constructor(private turingMachineService: TuringMachineService,
-                private toasterService: ToasterService) {
+    constructor(private router: Router,
+                private toasterService: ToasterService,
+                private turingMachineService: TuringMachineService) {
     }
 
     public ngOnInit(): void {
@@ -45,11 +47,21 @@ export class MainComponent {
 
     public async calculate() {
         if (!this.input) {
+            this.toasterService.pop('error', 'Error', 'Input cannot be empty!');
             return;
         }
         this.turingMachineService.calculate(this.turingMachine, this.input).subscribe(
             calculation => {
-                console.log(calculation);
+                console.log(calculation)
+                this.router.navigate(['calculation'], {
+                    state:
+                        {
+                            data: {
+                                calculation: calculation,
+                                turingMachine: this.turingMachine
+                            }
+                        }
+                });
             }, ex => {
                 console.log(ex);
                 this.toasterService.pop('error', 'Error', ex.error.message);
@@ -103,18 +115,15 @@ export class MainComponent {
         },
         {
             headerName: 'Read Character',
-            cellClass: '',
             field: 'readCharacter'
         },
         {
             headerName: 'To State',
-            cellClass: '',
             field: 'toState',
             cellRenderer: _.bind(this.stateRenderer, this)
         },
         {
             headerName: 'Direction',
-            cellClass: '',
             field: 'direction'
         }
     ];
@@ -126,7 +135,6 @@ export class MainComponent {
         let state = this.stateMap[params.value];
         return state && state.name ? state.name : null;
     }
-
 
     public toastConfig: ToasterConfig =
         new ToasterConfig({

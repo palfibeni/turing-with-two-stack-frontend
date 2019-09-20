@@ -1,0 +1,12 @@
+<div class="container">
+    <h1>Calculation</h1>
+    <button class="mat-button mat-button-base" (click)="back()">
+        <span class="mat-button-wrapper">Back</span>
+    </button>
+    <ag-grid-angular
+            style="height: 500px;"
+            class="ag-theme-balham"
+            [rowData]="calculation.turingConditions"
+            [columnDefs]="conditionColumnDefs">
+    </ag-grid-angular>
+</div>

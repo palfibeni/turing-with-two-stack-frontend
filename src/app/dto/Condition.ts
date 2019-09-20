@@ -1,7 +1,7 @@
 export class Condition{
-    currentState: string;
+    currentState: number;
 
-    currentPostion: string;
+    currentPosition: string;
 
     charactersAhead: Array<string>;
 
