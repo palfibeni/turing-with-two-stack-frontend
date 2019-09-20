@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@angular/animations": "^8.2.7",
     "@angular/common": "^8.0.0",
     "@angular/compiler": "^8.0.0",
     "@angular/core": "^8.0.0",
@@ -12,6 +13,7 @@
     "@angular/router": "^8.0.0",
     "ag-grid-angular": "^21.2.1",
     "ag-grid-community": "^21.2.1",
+    "angular2-toaster": "^8.0.0",
     "bootstrap": "^4.3.1",
     "core-js": "2",
     "rxjs": "^6.5.2",

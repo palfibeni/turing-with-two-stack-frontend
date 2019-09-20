@@ -5,13 +5,14 @@ import {TuringMachineService} from "../service/turing.machine.service";
 import {TuringMachine} from "../dto/TuringMachine";
 import {TuringRule} from "../dto/TuringRule";
 import {MachineState} from "../dto/MachineState";
+import {ToasterConfig, ToasterService} from "angular2-toaster";
 
 @Component({
     selector: 'my-app',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    templateUrl: './main.component.html',
+    styleUrls: ['./main.component.scss']
 })
-export class AppComponent {
+export class MainComponent {
 
     public turingMachine: TuringMachine;
     public states: Array<MachineState>;
@@ -20,14 +21,13 @@ export class AppComponent {
 
     public input: String;
 
-
-    constructor(private turingMachineService: TuringMachineService) {
+    constructor(private turingMachineService: TuringMachineService,
+                private toasterService: ToasterService) {
     }
 
     public ngOnInit(): void {
         this.turingMachineService.getAnBnCnTuringMachine().subscribe(turingMachine => {
             console.log(turingMachine);
-            console.log(JSON.stringify(turingMachine));
             this.turingMachine = turingMachine;
             this.initInputs();
         });
@@ -47,16 +47,21 @@ export class AppComponent {
         if (!this.input) {
             return;
         }
-        console.log()
-        let calculation = await this.turingMachineService.calculate(this.turingMachine, this.input).toPromise();
-        console.log(calculation);
+        this.turingMachineService.calculate(this.turingMachine, this.input).subscribe(
+            calculation => {
+                console.log(calculation);
+            }, ex => {
+                console.log(ex);
+                this.toasterService.pop('error', 'Error', ex.error.message);
+            });
     }
 
     stateColumnDefs = [
         {
             headerName: 'State',
             field: 'name',
-            checkboxSelection: true},
+            checkboxSelection: true
+        },
         {
             headerName: 'Start',
             cellClass: 'booleanType',
@@ -121,4 +126,12 @@ export class AppComponent {
         let state = this.stateMap[params.value];
         return state && state.name ? state.name : null;
     }
+
+
+    public toastConfig: ToasterConfig =
+        new ToasterConfig({
+            timeout: 0,
+            limit: 3,
+            positionClass: 'toast-bottom-right'
+        });
 }
