@@ -1,19 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {_} from 'underscore';
-
-import {TuringMachineService} from "../service/turing.machine.service";
-import {TuringMachine} from "../dto/TuringMachine";
-import {TuringRule} from "../dto/TuringRule";
-import {MachineState} from "../dto/MachineState";
 import {ToasterConfig, ToasterService} from "angular2-toaster";
 import {Router} from "@angular/router";
+
+import {CalculationService} from "../service/calculation.service";
+import {TuringMachineService} from "../service/turing.machine.service";
+import {MachineState} from "../dto/MachineState";
+import {TuringMachine} from "../dto/TuringMachine";
+import {TuringRule} from "../dto/TuringRule";
 
 @Component({
     selector: 'app-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
 
     public turingMachine: TuringMachine;
     public states: Array<MachineState>;
@@ -24,7 +25,8 @@ export class MainComponent {
 
     constructor(private router: Router,
                 private toasterService: ToasterService,
-                private turingMachineService: TuringMachineService) {
+                private turingMachineService: TuringMachineService,
+                private calculationService: CalculationService) {
     }
 
     public ngOnInit(): void {
@@ -50,18 +52,12 @@ export class MainComponent {
             this.toasterService.pop('error', 'Error', 'Input cannot be empty!');
             return;
         }
-        this.turingMachineService.calculate(this.turingMachine, this.input).subscribe(
+        this.calculationService.calculate(this.turingMachine, this.input).subscribe(
             calculation => {
-                console.log(calculation)
-                this.router.navigate(['calculation'], {
-                    state:
-                        {
-                            data: {
-                                calculation: calculation,
-                                turingMachine: this.turingMachine
-                            }
-                        }
-                });
+                console.log(calculation);
+                this.calculationService.turingMachine = this.turingMachine;
+                this.calculationService.calculation = calculation;
+                this.router.navigate(['calculation']);
             }, ex => {
                 console.log(ex);
                 this.toasterService.pop('error', 'Error', ex.error.message);

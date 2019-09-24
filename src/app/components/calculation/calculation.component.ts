@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {_} from 'underscore';
 
 import {Calculation} from "../../dto/Calculation";
@@ -6,27 +6,29 @@ import {TuringMachine} from "../../dto/TuringMachine";
 import {Condition} from "../../dto/Condition";
 import {ToasterConfig, ToasterService} from "angular2-toaster";
 import {Router} from "@angular/router";
+import {CalculationService} from "../../service/calculation.service";
 
 @Component({
     selector: 'app-calculation',
     templateUrl: `calculation.component.html`,
     styleUrls: [`calculation.component.scss`]
 })
-export class CalculationComponent {
+export class CalculationComponent implements OnInit {
     private turingMachine: TuringMachine;
     private calculation: Calculation;
     private stateMap: Array<any>;
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                private calculationService: CalculationService) {
     }
 
     public ngOnInit(): void {
-        if (!history.state.data.calculation || !history.state.data.turingMachine) {
+        if (!this.calculationService.calculation || !this.calculationService.turingMachine) {
             this.back();
             return;
         }
-        this.calculation = history.state.data.calculation;
-        this.turingMachine = history.state.data.turingMachine;
+        this.calculation = this.calculationService.calculation;
+        this.turingMachine = this.calculationService.turingMachine;
         this.stateMap = _.indexBy(this.turingMachine.states, 'id');
     }
 
