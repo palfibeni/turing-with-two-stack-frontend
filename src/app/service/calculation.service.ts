@@ -12,8 +12,8 @@ export class CalculationService {
     private apiURL: string = 'http://127.0.0.1:8080/api';
 
     // DataShare
-    turingMachine : TuringMachine = null;
-    calculation : Calculation = null;
+    public turingMachine : TuringMachine = null;
+    public calculation : Calculation = null;
 
     constructor(private httpClient: HttpClient) {}
 

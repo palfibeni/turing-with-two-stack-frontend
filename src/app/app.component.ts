@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ToasterConfig} from "angular2-toaster";
 
 @Component({
   selector: 'root-app',
@@ -12,4 +13,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
   }
 
+  public toastConfig: ToasterConfig =
+      new ToasterConfig({
+        timeout: 0,
+        limit: 3,
+        positionClass: 'toast-bottom-right'
+      });
 }

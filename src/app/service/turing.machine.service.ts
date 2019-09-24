@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { TuringMachine} from "../dto/TuringMachine";
 import {Observable} from "rxjs";
-import {Calculation} from "../dto/Calculation";
 
 @Injectable({
     providedIn: 'root'

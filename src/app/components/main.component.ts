@@ -132,10 +132,4 @@ export class MainComponent implements OnInit {
         return state && state.name ? state.name : null;
     }
 
-    public toastConfig: ToasterConfig =
-        new ToasterConfig({
-            timeout: 0,
-            limit: 3,
-            positionClass: 'toast-bottom-right'
-        });
 }

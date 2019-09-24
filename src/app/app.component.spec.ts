@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AppComponent} from './app.component';
 import {RouterTestingModule} from "@angular/router/testing";
+import {ToasterModule} from "angular2-toaster";
 
 describe('AppComponent', () => {
     let component: AppComponent;
@@ -9,7 +10,8 @@ describe('AppComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule],
+            imports: [RouterTestingModule,
+                    ToasterModule.forRoot()],
             declarations: [AppComponent]
         }).compileComponents();
     }));

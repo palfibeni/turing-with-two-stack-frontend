@@ -35,4 +35,10 @@ describe('CalculationComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('navigation should fire', () => {
+        component.back();
+
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+    });
 });
