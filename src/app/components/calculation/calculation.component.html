@@ -7,6 +7,8 @@
             style="height: 500px;"
             class="ag-theme-balham"
             [rowData]="calculation.turingConditions"
-            [columnDefs]="conditionColumnDefs">
+            [columnDefs]="conditionColumnDefs"
+            [rowSelection]="rowSelection "
+            (gridReady)="onTuringCalculationGridReady($event)">
     </ag-grid-angular>
 </div>

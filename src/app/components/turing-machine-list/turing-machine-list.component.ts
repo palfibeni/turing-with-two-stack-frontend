@@ -14,17 +14,15 @@ export class TuringMachineListComponent implements OnInit {
   // AG-grid specific
   private gridApi;
   private gridColumnApi;
-  private rowSelection;
+  private rowSelection = "single";
   private turingMachineColumnDefs;
 
-  private turingMachines : Array<TuringMachine>;
   private entityId: number;
 
   constructor(private router: Router, private toasterService: ToasterService, private turingMachineService: TuringMachineService) {
     this.router = router;
     this.toasterService = toasterService;
     this.turingMachineService = turingMachineService;
-    this.rowSelection = "single";
     this.turingMachineColumnDefs = [
       {
         width: 40,
@@ -48,10 +46,11 @@ export class TuringMachineListComponent implements OnInit {
   }
 
   onGridReady(params) {
+    console.log("Turing machine grid ready!");
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.turingMachineService.getTuringMachines().subscribe(turingMachines => {
-      this.turingMachines = turingMachines;
+      this.gridApi.setRowData(turingMachines);
       this.gridApi.sizeColumnsToFit();
     })
   }
@@ -59,8 +58,6 @@ export class TuringMachineListComponent implements OnInit {
   onSelectionChanged() {
     let selectedRows = this.gridApi.getSelectedRows();
     this.entityId = selectedRows[0].id;
-    console.log(selectedRows[0].id);
-    console.log(this.entityId);
   }
 
   public add(): void {

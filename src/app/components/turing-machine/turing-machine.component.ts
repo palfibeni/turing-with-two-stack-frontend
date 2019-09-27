@@ -19,6 +19,13 @@ import {RuleDialogComponent} from "./rule-dialog/rule-dialog.component";
 })
 export class TuringMachineComponent implements OnInit {
 
+    // AG-grid specific
+    private stateGridApi;
+    private stateGridColumnApi;
+    private ruleGridApi;
+    private ruleGridColumnApi;
+    private rowSelection = "single";
+
     private turingMachine: TuringMachine;
 
     private title: string;
@@ -40,14 +47,29 @@ export class TuringMachineComponent implements OnInit {
         const entityId = this.route.snapshot.paramMap.get('entityId');
         if (!entityId) {
             this.initNewTuringMachine();
-            this.initInputs();
+            this.initData();
         } else {
             this.turingMachineService.getTuringMachine(entityId).subscribe(turingMachine => {
                 console.log(turingMachine);
                 this.turingMachine = turingMachine;
-                this.initInputs();
+                this.initData();
             });
         }
+    }
+
+    public onStateGridReady(params) {
+        console.log("State grid ready!");
+        this.stateGridApi = params.api;
+        this.stateGridColumnApi = params.columnApi;
+        this.stateGridApi.sizeColumnsToFit();
+    }
+
+
+    public onRuleGridReady(params) {
+        console.log("Rule grid ready!");
+        this.ruleGridApi = params.api;
+        this.ruleGridColumnApi = params.columnApi;
+        this.ruleGridApi.sizeColumnsToFit();
     }
 
     public back(): void {
@@ -58,7 +80,7 @@ export class TuringMachineComponent implements OnInit {
         this.turingMachine = new TuringMachine();
     }
 
-    private initInputs(): void {
+    private initData(): void {
         if (!this.turingMachine) {
             return;
         }
@@ -108,6 +130,7 @@ export class TuringMachineComponent implements OnInit {
 
     }
 
+    // State AG-grid ColumnDefs
     public stateColumnDefs = [
         {
             headerName: 'State',
@@ -118,19 +141,25 @@ export class TuringMachineComponent implements OnInit {
             headerName: 'Start',
             cellClass: 'booleanType',
             field: 'start',
-            cellRenderer: TuringMachineComponent.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer,
+            width: 80,
+            suppressSizeToFit: true
         },
         {
             headerName: 'Accept',
             cellClass: 'booleanType',
             field: 'accept',
-            cellRenderer: TuringMachineComponent.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer,
+            width: 80,
+            suppressSizeToFit: true
         },
         {
             headerName: 'Decline',
             cellClass: 'booleanType',
             field: 'decline',
-            cellRenderer: TuringMachineComponent.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer,
+            width: 80,
+            suppressSizeToFit: true
         }
     ];
 
@@ -146,6 +175,7 @@ export class TuringMachineComponent implements OnInit {
         }
     }
 
+    // Rule AG-grid ColumnDefs
     public ruleColumnDefs = [
         {
             headerName: 'From State',
@@ -155,7 +185,9 @@ export class TuringMachineComponent implements OnInit {
         },
         {
             headerName: 'Read Character',
-            field: 'readCharacter'
+            field: 'readCharacter',
+            width: 120,
+            suppressSizeToFit: true
         },
         {
             headerName: 'To State',
@@ -164,7 +196,9 @@ export class TuringMachineComponent implements OnInit {
         },
         {
             headerName: 'Direction',
-            field: 'direction'
+            field: 'direction',
+            width: 100,
+            suppressSizeToFit: true
         }
     ];
 

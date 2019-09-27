@@ -14,8 +14,8 @@ import {TuringMachineListComponent} from './components/turing-machine-list/turin
 import {TuringMachineComponent} from "./components/turing-machine/turing-machine.component";
 import {CalculationComponent} from "./components/calculation/calculation.component";
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
-import { StateDialogComponent } from './components/turing-machine/state-dialog/state-dialog.component';
-import { RuleDialogComponent } from './components/turing-machine/rule-dialog/rule-dialog.component';
+import {StateDialogComponent} from './components/turing-machine/state-dialog/state-dialog.component';
+import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-dialog.component';
 
 @NgModule({
     imports: [

@@ -20,6 +20,10 @@ export class TuringMachineService {
         return this.httpClient.get<TuringMachine>(`${this.apiURL}/turing-machine/${id}`);
     }
 
+    public saveTuringMachine(turingMachine : TuringMachine) : Observable<TuringMachine>{
+        return this.httpClient.post<TuringMachine>(`${this.apiURL}/turing-machine`, turingMachine);
+    }
+
     public getAnBnCnTuringMachine() : Observable<TuringMachine>{
         return this.httpClient.get<TuringMachine>(`${this.apiURL}/an-bn-cn-turing-machine`);
     }

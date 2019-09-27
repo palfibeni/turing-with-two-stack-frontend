@@ -1,10 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {_} from 'underscore';
 
 import {Calculation} from "../../dto/Calculation";
 import {TuringMachine} from "../../dto/TuringMachine";
-import {Condition} from "../../dto/Condition";
-import {ToasterConfig, ToasterService} from "angular2-toaster";
 import {Router} from "@angular/router";
 import {CalculationService} from "../../service/calculation.service";
 
@@ -14,6 +12,12 @@ import {CalculationService} from "../../service/calculation.service";
     styleUrls: [`calculation.component.scss`]
 })
 export class CalculationComponent implements OnInit {
+
+    // AG-grid specific
+    private turingCalculationGridApi;
+    private turingCalculationGridColumnApi;
+    private rowSelection;
+
     private turingMachine: TuringMachine;
     private calculation: Calculation;
     private stateMap: Array<any>;
@@ -36,11 +40,17 @@ export class CalculationComponent implements OnInit {
         this.router.navigate(['']);
     }
 
+    public onTuringCalculationGridReady(params) {
+        console.log("Turing Calculation grid ready!");
+        this.turingCalculationGridApi = params.api;
+        this.turingCalculationGridColumnApi = params.columnApi;
+        this.turingCalculationGridApi.sizeColumnsToFit();
+    }
+
     conditionColumnDefs = [
         {
             headerName: 'Current State',
             field: 'currentState',
-            checkboxSelection: true,
             cellRenderer: _.bind(this.stateRenderer, this)
         },
         {
@@ -49,7 +59,9 @@ export class CalculationComponent implements OnInit {
         },
         {
             headerName: 'Current Position',
-            field: 'currentPosition'
+            field: 'currentPosition',
+            width: 120,
+            suppressSizeToFit: true
         },
         {
             headerName: 'Characters Ahead',
