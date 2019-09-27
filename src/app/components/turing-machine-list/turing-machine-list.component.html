@@ -1,0 +1,23 @@
+<div class="container">
+    <h1>Turing Machines</h1>
+    <mat-toolbar class="grid-toolbar">
+        <button class="mat-button mat-button-base" (click)="add()">
+            <mat-icon>add</mat-icon><span class="mat-button-wrapper">Add</span>
+        </button>
+
+        <button class="mat-button mat-button-base" (click)="edit()">
+            <mat-icon>create</mat-icon><span class="mat-button-wrapper">Edit</span>
+        </button>
+    </mat-toolbar>
+
+    <ag-grid-angular
+        #agGrid
+        style="height: 500px;"
+        class="ag-theme-balham"
+        [columnDefs]="turingMachineColumnDefs"
+        [rowSelection]="rowSelection "
+        [rowData]="turingMachines"
+        (selectionChanged)="onSelectionChanged()"
+        (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+</div>

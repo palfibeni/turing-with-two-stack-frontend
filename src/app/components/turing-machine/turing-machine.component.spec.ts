@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
 
-import {MainComponent} from "./main.component";
+import {MainComponent} from "./turing-machine.component";
 import {CalculationService} from "../service/calculation.service";
 import {TuringMachineService} from "../service/turing.machine.service";
 import {TuringMachine} from "../dto/TuringMachine";

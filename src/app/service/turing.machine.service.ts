@@ -12,7 +12,15 @@ export class TuringMachineService {
 
     constructor(private httpClient: HttpClient) {}
 
+    public getTuringMachines() : Observable<Array<TuringMachine>>{
+        return this.httpClient.get<Array<TuringMachine>>(`${this.apiURL}/turing-machines`);
+    }
+
+    public getTuringMachine(id : string) : Observable<TuringMachine>{
+        return this.httpClient.get<TuringMachine>(`${this.apiURL}/turing-machine/${id}`);
+    }
+
     public getAnBnCnTuringMachine() : Observable<TuringMachine>{
-        return this.httpClient.get<TuringMachine>(`${this.apiURL}/AnBnCnTuringMachine`);
+        return this.httpClient.get<TuringMachine>(`${this.apiURL}/an-bn-cn-turing-machine`);
     }
 }

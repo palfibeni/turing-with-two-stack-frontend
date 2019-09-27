@@ -1,23 +1,32 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
-import {MainComponent} from "./components/main.component";
+import {TuringMachineListComponent} from "./components/turing-machine-list/turing-machine-list.component";
+import {TuringMachineComponent} from "./components/turing-machine/turing-machine.component";
 import {CalculationComponent} from "./components/calculation/calculation.component";
 import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
 
 const appRoutes: Routes = [
     {
-        path: 'main',
-        component: MainComponent,
+        path: 'turing-machine-list',
+        component: TuringMachineListComponent,
     },
     {
-        path: '',
-        redirectTo: '/main',
-        pathMatch: 'full'
+        path: 'turing-machine',
+        component: TuringMachineComponent,
+    },
+    {
+        path: 'turing-machine/:entityId',
+        component: TuringMachineComponent,
     },
     {
         path: 'calculation',
         component: CalculationComponent,
 
+    },
+    {
+        path: '',
+        redirectTo: '/turing-machine-list',
+        pathMatch: 'full'
     },
     { path: '**', component: PageNotFoundComponent }
 ];

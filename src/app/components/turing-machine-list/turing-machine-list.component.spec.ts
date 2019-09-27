@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageNotFoundComponent } from './page-not-found.component';
+import { TuringMachineListComponent } from './turing-machine-list.component';
 
-describe('HeaderComponent', () => {
-  let component: PageNotFoundComponent;
-  let fixture: ComponentFixture<PageNotFoundComponent>;
+describe('TuringMachineListComponent', () => {
+  let component: TuringMachineListComponent;
+  let fixture: ComponentFixture<TuringMachineListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageNotFoundComponent ]
+      declarations: [ TuringMachineListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageNotFoundComponent);
+    fixture = TestBed.createComponent(TuringMachineListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,46 @@
+<div class="container">
+    <h1>
+        {{title}}
+    </h1>
+
+    <label>
+        Input:
+        <input type="text" [(ngModel)]="input">
+    </label>
+    <button class="mat-button mat-button-base" (click)="calculate()">
+        <span class="mat-button-wrapper">Send</span>
+    </button>
+
+
+    <mat-toolbar class="grid-toolbar">
+        <button class="mat-button mat-button-base" (click)="addState()">
+            <mat-icon>add</mat-icon><span class="mat-button-wrapper">Add</span>
+        </button>
+
+        <button class="mat-button mat-button-base" (click)="editState()">
+            <mat-icon>create</mat-icon><span class="mat-button-wrapper">Edit</span>
+        </button>
+    </mat-toolbar>
+    <ag-grid-angular
+            style="height: 500px;"
+            class="ag-theme-balham"
+            [rowData]="states"
+            [columnDefs]="stateColumnDefs">
+    </ag-grid-angular>
+
+    <mat-toolbar class="grid-toolbar">
+        <button class="mat-button mat-button-base" (click)="addRule()">
+            <mat-icon>add</mat-icon><span class="mat-button-wrapper">Add</span>
+        </button>
+
+        <button class="mat-button mat-button-base" (click)="editRule()">
+            <mat-icon>create</mat-icon><span class="mat-button-wrapper">Edit</span>
+        </button>
+    </mat-toolbar>
+    <ag-grid-angular
+            style="height: 500px;"
+            class="ag-theme-balham"
+            [rowData]="rules"
+            [columnDefs]="ruleColumnDefs">
+    </ag-grid-angular>
+</div>

@@ -1,0 +1,26 @@
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover, a:active{
+  color: lightgray;
+}
+
+.navigation-items{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline;
+    a {
+      display: inline-block;
+      padding: 8px;
+    }
+  }
+}
+
+mat-toolbar{
+  border-radius: 3px;
+}

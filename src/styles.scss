@@ -4,8 +4,9 @@
  * Copyright 2011-2017 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import "~bootstrap/scss/bootstrap";
 
-@import "~bootstrap/scss/bootstrap";;
+;
 
 /* AG Grid css */
 @import "~ag-grid-community/dist/styles/ag-grid.css";
@@ -13,3 +14,20 @@
 
 /* toastr */
 @import '~angular2-toaster/toaster';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-icon {
+  font-size: 17px;
+}
+
+.mat-button-wrapper {
+  font-size: 17px;
+}

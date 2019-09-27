@@ -1,8 +1,7 @@
 <div class="container">
-    <h1>Turing with TwoStack</h1>
-    <nav>
-        <a routerLink="/main" routerLinkActive="active">Main</a>
-    </nav>
-    <router-outlet></router-outlet>
+    <app-header></app-header>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
     <toaster-container [toasterconfig]="toastConfig"></toaster-container>
 </div>

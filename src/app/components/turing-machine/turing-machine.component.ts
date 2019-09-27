@@ -1,40 +1,61 @@
 import {Component, OnInit} from '@angular/core';
 import {_} from 'underscore';
 import {ToasterConfig, ToasterService} from "angular2-toaster";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
-import {CalculationService} from "../service/calculation.service";
-import {TuringMachineService} from "../service/turing.machine.service";
-import {MachineState} from "../dto/MachineState";
-import {TuringMachine} from "../dto/TuringMachine";
-import {TuringRule} from "../dto/TuringRule";
+import {CalculationService} from "../../service/calculation.service";
+import {TuringMachineService} from "../../service/turing.machine.service";
+import {MachineState} from "../../dto/MachineState";
+import {TuringMachine} from "../../dto/TuringMachine";
+import {TuringRule} from "../../dto/TuringRule";
+import {MatDialog} from "@angular/material";
+import {StateDialogComponent} from "./state-dialog/state-dialog.component";
+import {RuleDialogComponent} from "./rule-dialog/rule-dialog.component";
 
 @Component({
     selector: 'app-main',
-    templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss']
+    templateUrl: './turing-machine.component.html',
+    styleUrls: ['./turing-machine.component.scss']
 })
-export class MainComponent implements OnInit {
+export class TuringMachineComponent implements OnInit {
 
-    public turingMachine: TuringMachine;
-    public states: Array<MachineState>;
-    public rules: Array<TuringRule>;
+    private turingMachine: TuringMachine;
+
+    private title: string;
+    private states: Array<MachineState>;
+    private rules: Array<TuringRule>;
     private stateMap: Array<any>;
 
-    public input: String;
+    private input: String;
 
-    constructor(private router: Router,
+    constructor(private route: ActivatedRoute,
+                private router: Router,
                 private toasterService: ToasterService,
+                private dialog: MatDialog,
                 private turingMachineService: TuringMachineService,
                 private calculationService: CalculationService) {
     }
 
     public ngOnInit(): void {
-        this.turingMachineService.getAnBnCnTuringMachine().subscribe(turingMachine => {
-            console.log(turingMachine);
-            this.turingMachine = turingMachine;
+        const entityId = this.route.snapshot.paramMap.get('entityId');
+        if (!entityId) {
+            this.initNewTuringMachine();
             this.initInputs();
-        });
+        } else {
+            this.turingMachineService.getTuringMachine(entityId).subscribe(turingMachine => {
+                console.log(turingMachine);
+                this.turingMachine = turingMachine;
+                this.initInputs();
+            });
+        }
+    }
+
+    public back(): void {
+        this.router.navigate(['']);
+    }
+
+    private initNewTuringMachine(): void {
+        this.turingMachine = new TuringMachine();
     }
 
     private initInputs(): void {
@@ -42,6 +63,7 @@ export class MainComponent implements OnInit {
             return;
         }
 
+        this.title = this.turingMachine.name;
         this.states = this.turingMachine.states;
         this.stateMap = _.indexBy(this.states, 'id');
         this.rules = this.turingMachine.rules;
@@ -64,7 +86,29 @@ export class MainComponent implements OnInit {
             });
     }
 
-    stateColumnDefs = [
+    public addState() {
+        let stateDialog = this.dialog.open(StateDialogComponent, {
+            height: '400px',
+            width: '600px',
+        });
+    }
+
+    public editState() {
+
+    }
+
+    public addRule() {
+        let ruleDialog = this.dialog.open(RuleDialogComponent, {
+            height: '400px',
+            width: '600px',
+        });
+    }
+
+    public editRule() {
+
+    }
+
+    public stateColumnDefs = [
         {
             headerName: 'State',
             field: 'name',
@@ -74,23 +118,23 @@ export class MainComponent implements OnInit {
             headerName: 'Start',
             cellClass: 'booleanType',
             field: 'start',
-            cellRenderer: this.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer
         },
         {
             headerName: 'Accept',
             cellClass: 'booleanType',
             field: 'accept',
-            cellRenderer: this.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer
         },
         {
             headerName: 'Decline',
             cellClass: 'booleanType',
             field: 'decline',
-            cellRenderer: this.booleanCellRenderer
+            cellRenderer: TuringMachineComponent.booleanCellRenderer
         }
     ];
 
-    public booleanCellRenderer(params) {
+    public static booleanCellRenderer(params) {
         if (params.value === true) {
             return "<span title='true' class='ag-icon ag-icon-tick content-icon'></span>";
         } else if (params.value === false) {
@@ -102,7 +146,7 @@ export class MainComponent implements OnInit {
         }
     }
 
-    ruleColumnDefs = [
+    public ruleColumnDefs = [
         {
             headerName: 'From State',
             field: 'fromState',
