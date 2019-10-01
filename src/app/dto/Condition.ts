@@ -1,9 +1,9 @@
 export class Condition{
     currentState: number;
 
-    currentPosition: string;
+    currentPosition: String;
 
-    charactersAhead: Array<string>;
+    charactersAhead: Array<String>;
 
-    charactersBehind: Array<string>;
+    charactersBehind: Array<String>;
 }

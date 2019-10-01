@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {_} from 'underscore';
-import {ToasterConfig, ToasterService} from "angular2-toaster";
+import {ToasterService} from "angular2-toaster";
 import {ActivatedRoute, Router} from "@angular/router";
 
 import {CalculationService} from "../../service/calculation.service";
@@ -13,7 +13,7 @@ import {StateDialogComponent} from "./state-dialog/state-dialog.component";
 import {RuleDialogComponent} from "./rule-dialog/rule-dialog.component";
 
 @Component({
-    selector: 'app-main',
+    selector: 'app-turing-machine',
     templateUrl: './turing-machine.component.html',
     styleUrls: ['./turing-machine.component.scss']
 })
@@ -28,12 +28,15 @@ export class TuringMachineComponent implements OnInit {
 
     private turingMachine: TuringMachine;
 
-    private title: string;
+    private title: String;
+    private chars: Array<String>;
     private states: Array<MachineState>;
-    private rules: Array<TuringRule>;
     private stateMap: Array<any>;
+    private rules: Array<TuringRule>;
 
+    private newChar: String;
     private input: String;
+    private selectedChar: number;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -58,18 +61,17 @@ export class TuringMachineComponent implements OnInit {
     }
 
     public onStateGridReady(params) {
-        console.log("State grid ready!");
         this.stateGridApi = params.api;
         this.stateGridColumnApi = params.columnApi;
-        this.stateGridApi.sizeColumnsToFit();
+        this.setStateData();
+        console.log("State grid ready!");
     }
 
-
     public onRuleGridReady(params) {
-        console.log("Rule grid ready!");
         this.ruleGridApi = params.api;
         this.ruleGridColumnApi = params.columnApi;
-        this.ruleGridApi.sizeColumnsToFit();
+        this.setRuleData();
+        console.log("Rule grid ready!");
     }
 
     public back(): void {
@@ -86,9 +88,20 @@ export class TuringMachineComponent implements OnInit {
         }
 
         this.title = this.turingMachine.name;
+        this.chars = this.turingMachine.tapeCharacters;
         this.states = this.turingMachine.states;
         this.stateMap = _.indexBy(this.states, 'id');
         this.rules = this.turingMachine.rules;
+    }
+
+    private setStateData() {
+        this.stateGridApi.setRowData(this.states);
+        this.stateGridApi.sizeColumnsToFit();
+    }
+
+    private setRuleData() {
+        this.ruleGridApi.setRowData(this.rules);
+        this.ruleGridApi.sizeColumnsToFit();
     }
 
     public async calculate() {
@@ -108,34 +121,121 @@ export class TuringMachineComponent implements OnInit {
             });
     }
 
+    public addChar() {
+        console.log(`add ${this.newChar}`);
+        if (_.contains(this.chars, this.newChar)) {
+            this.toasterService.pop('error', 'Duplicate', `Duplicate Character is not allowed! (${this.newChar})`);
+            return;
+        }
+        this.chars.push(this.newChar);
+    }
+
+    public deleteChar() {
+        console.log(`delete ${this.selectedChar}`);
+        if (!this.selectedChar) {
+            this.toasterService.pop('error', 'No selection', 'You must select a character!');
+            return;
+        }
+        let char = this.chars[this.selectedChar];
+        let ruleWhereCharacterIsUsed = _.find(this.rules, (rule) => {
+            return rule.readCharacter === char
+                || rule.writeCharacter === char;
+        });
+        if (ruleWhereCharacterIsUsed) {
+            this.toasterService.pop(
+                'error', 'Used',
+                `The character is still in use! (char: ${char}) (ruleId; ${ruleWhereCharacterIsUsed.id})`);
+            return;
+        }
+        this.chars.splice(this.selectedChar, 1);
+        this.selectedChar = null;
+    }
+
     public addState() {
         let stateDialog = this.dialog.open(StateDialogComponent, {
             height: '400px',
             width: '600px',
+            data: {}
         });
     }
 
     public editState() {
+        let selectedRows = this.stateGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a state!');
+        }
+        let selectedState = selectedRows[0];
+        console.log(`edit ${selectedState.id}`);
+    }
 
+    public deleteState() {
+        let selectedRows = this.stateGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a state!');
+        }
+        let selectedState = selectedRows[0];
+        let ruleWhereStateIsUsed = _.find(this.rules, (rule) => {
+            return rule.fromState === selectedState.id
+                || rule.toState === selectedState.id;
+        });
+
+        if (ruleWhereStateIsUsed) {
+            this.toasterService.pop(
+                'error', 'Used',
+                `The character is still in use! (stateId: ${selectedState.id}) (ruleId; ${ruleWhereStateIsUsed.id})`);
+            return;
+        }
+        console.log(`delete ${selectedState.id} ${this.states.indexOf(selectedState)}`);
+        this.states.splice(this.states.indexOf(selectedState), 1);
+        this.setStateData();
     }
 
     public addRule() {
         let ruleDialog = this.dialog.open(RuleDialogComponent, {
             height: '400px',
             width: '600px',
+            data: {}
         });
     }
 
     public editRule() {
+        let selectedRows = this.ruleGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
+            return;
+        }
+        let selectedRule = selectedRows[0];
+        console.log(`edit ${selectedRule.id}`);
+    }
 
+    public deleteRule() {
+        let selectedRows = this.ruleGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
+            return;
+        }
+        let selectedRule = selectedRows[0];
+        console.log(`delete ${selectedRule.id}`);
+        this.rules.splice(this.rules.indexOf(selectedRule), 1);
+        this.setStateData();
     }
 
     // State AG-grid ColumnDefs
     public stateColumnDefs = [
         {
+            headerName: 'ID',
+            field: 'id',
+            sortable: true,
+            filter: true,
+            checkboxSelection: true,
+            width: 70,
+            suppressSizeToFit: true,
+        },
+        {
             headerName: 'State',
             field: 'name',
-            checkboxSelection: true
+            sortable: true,
+            filter: true
         },
         {
             headerName: 'Start',
@@ -178,15 +278,25 @@ export class TuringMachineComponent implements OnInit {
     // Rule AG-grid ColumnDefs
     public ruleColumnDefs = [
         {
+            headerName: 'ID',
+            field: 'id',
+            sortable: true,
+            filter: true,
+            checkboxSelection: true,
+            width: 70,
+            suppressSizeToFit: true
+        },
+        {
             headerName: 'From State',
             field: 'fromState',
-            checkboxSelection: true,
             cellRenderer: _.bind(this.stateRenderer, this)
         },
         {
             headerName: 'Read Character',
             field: 'readCharacter',
             width: 120,
+            sortable: true,
+            filter: true,
             suppressSizeToFit: true
         },
         {
@@ -197,6 +307,8 @@ export class TuringMachineComponent implements OnInit {
         {
             headerName: 'Direction',
             field: 'direction',
+            sortable: true,
+            filter: true,
             width: 100,
             suppressSizeToFit: true
         }

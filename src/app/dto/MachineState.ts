@@ -1,7 +1,7 @@
 export class MachineState {
     id: number;
 
-    name: string;
+    name: String;
 
     start: boolean;
 

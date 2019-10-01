@@ -1,11 +1,19 @@
 import {NgModule} from '@angular/core';
-import {AgGridModule} from "ag-grid-angular";
+import {AgGridModule} from 'ag-grid-angular/dist/aggrid.module';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToasterModule} from "angular2-toaster";
-import {MatDialogModule, MatIconModule, MatMenuModule, MatToolbarModule} from "@angular/material";
+import {
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
+    MatMenuModule,
+    MatRadioModule,
+    MatTabsModule,
+    MatToolbarModule
+} from "@angular/material";
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from "./components/header/header.component";
@@ -19,17 +27,24 @@ import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-
 
 @NgModule({
     imports: [
-        AppRouting,
         AgGridModule.withComponents(),
-        BrowserAnimationsModule,
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        BrowserAnimationsModule,
         ToasterModule.forRoot(),
-        MatMenuModule,
-        MatToolbarModule,
+
+        // Material imports
+        MatCheckboxModule,
+        MatDialogModule,
         MatIconModule,
-        MatDialogModule
+        MatMenuModule,
+        MatRadioModule,
+        MatTabsModule,
+        MatToolbarModule,
+
+        // My imports
+        AppRouting
     ],
     declarations: [
         AppComponent,

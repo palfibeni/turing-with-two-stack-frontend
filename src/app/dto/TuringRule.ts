@@ -3,11 +3,11 @@ export class TuringRule{
 
     fromState: number;
 
-    readCharacter: string;
+    readCharacter: String;
 
     toState: number;
 
-    writeCharacter: string;
+    writeCharacter: String;
 
-    direction: string;
+    direction: String;
 }
