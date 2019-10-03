@@ -1,0 +1,19 @@
+.row {
+  line-height: 65px;
+  height: 75px;
+  div {
+    padding: 5px;
+  }
+}
+
+ul {
+  list-style-type: none;
+  li {
+    display: inline-block;
+  }
+}
+
+.current-position {
+  padding: 5px;
+  border-style: groove;
+}

@@ -221,7 +221,7 @@ export class TuringMachineComponent implements OnInit {
     }
 
     // State AG-grid ColumnDefs
-    public stateColumnDefs = [
+    private stateColumnDefs = [
         {
             headerName: 'ID',
             field: 'id',
@@ -276,7 +276,7 @@ export class TuringMachineComponent implements OnInit {
     }
 
     // Rule AG-grid ColumnDefs
-    public ruleColumnDefs = [
+    private ruleColumnDefs = [
         {
             headerName: 'ID',
             field: 'id',

@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">{{statesMap[condition.currentState].name}}</div>
+        <div class="col-md-1"></div>
+        <ul class="col-md-1">
+            <li *ngFor="let char of charactersBehind">{{char}}</li>
+            <li *ngIf="restCharactersBehind.length > 1" matTooltip="{{restCharactersBehind}}">...</li>
+        </ul>
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+            <span class="current-position">{{condition.currentPosition}}</span>
+        </div>
+        <div class="col-md-1"></div>
+        <ul class="col-md-1">
+            <li *ngFor="let char of charactersAhead">{{char}}</li>
+            <li *ngIf="restCharactersAhead.length" matTooltip="{{restCharactersAhead}}">...</li>
+        </ul>
+        <div class="col-md-1"></div>
+    </div>
+</div>

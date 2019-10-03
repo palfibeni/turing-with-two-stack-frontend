@@ -14,7 +14,6 @@ export class TuringMachineListComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   private rowSelection = "single";
-  private turingMachineColumnDefs;
 
   private entityId: number;
 
@@ -22,23 +21,6 @@ export class TuringMachineListComponent implements OnInit {
     this.router = router;
     this.toasterService = toasterService;
     this.turingMachineService = turingMachineService;
-    this.turingMachineColumnDefs = [
-      {
-        width: 40,
-        checkboxSelection: true,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'ID',
-        field: 'id',
-        width: 40,
-        suppressSizeToFit: true
-      },
-      {
-        headerName: 'Name',
-        field: 'name'
-      },
-    ];
   }
 
   ngOnInit() {
@@ -70,5 +52,23 @@ export class TuringMachineListComponent implements OnInit {
     }
     this.router.navigate([`/turing-machine/${this.entityId}`]);
   }
+
+  private turingMachineColumnDefs = [
+    {
+      width: 40,
+      checkboxSelection: true,
+      suppressSizeToFit: true
+    },
+    {
+      headerName: 'ID',
+      field: 'id',
+      width: 40,
+      suppressSizeToFit: true
+    },
+    {
+      headerName: 'Name',
+      field: 'name'
+    },
+  ];
 
 }

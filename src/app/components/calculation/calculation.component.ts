@@ -16,6 +16,8 @@ export class CalculationComponent implements OnInit {
     // AG-grid specific
     private turingCalculationGridApi;
     private turingCalculationGridColumnApi;
+    private twoStackCalculationGridApi;
+    private twoStackCalculationGridColumnApi;
     private rowSelection;
 
     private turingMachine: TuringMachine;
@@ -28,7 +30,7 @@ export class CalculationComponent implements OnInit {
 
     public ngOnInit(): void {
         if (!this.calculationService.calculation || !this.calculationService.turingMachine) {
-            this.back();
+            this.router.navigate(['']);
             return;
         }
         this.calculation = this.calculationService.calculation;
@@ -37,14 +39,28 @@ export class CalculationComponent implements OnInit {
     }
 
     public back(): void {
-        this.router.navigate(['']);
+        this.router.navigate([`/turing-machine/${this.turingMachine.id}`]);
     }
 
     public onTuringCalculationGridReady(params) {
         console.log("Turing Calculation grid ready!");
         this.turingCalculationGridApi = params.api;
         this.turingCalculationGridColumnApi = params.columnApi;
+    }
+
+    public onTuringCalculationTabSelected() {
+        console.log("Turing Tab selected");
         this.turingCalculationGridApi.sizeColumnsToFit();
+    }
+
+    public onTwoStackCalculationGridReady(params) {
+        console.log("TwoStack Calculation grid ready!");
+        this.twoStackCalculationGridApi = params.api;
+        this.twoStackCalculationGridColumnApi = params.columnApi;
+    }
+    public onTwoStackCalculationTabSelected() {
+        console.log("TwoStack Tab selected");
+        this.twoStackCalculationGridApi.sizeColumnsToFit();
     }
 
     conditionColumnDefs = [

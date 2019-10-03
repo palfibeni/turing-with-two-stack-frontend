@@ -8,11 +8,13 @@ import {ToasterModule} from "angular2-toaster";
 import {
     MatCheckboxModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
     MatMenuModule,
     MatRadioModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule
 } from "@angular/material";
 
 import {AppComponent} from './app.component';
@@ -24,6 +26,8 @@ import {CalculationComponent} from "./components/calculation/calculation.compone
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
 import {StateDialogComponent} from './components/turing-machine/state-dialog/state-dialog.component';
 import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-dialog.component';
+import {TuringConditionComponent} from './components/calculation/turing-condition/turing-condition.component';
+import {TwoStackConditionComponent} from './components/calculation/two-stack-condition/two-stack-condition.component';
 
 @NgModule({
     imports: [
@@ -36,12 +40,14 @@ import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-
 
         // Material imports
         MatCheckboxModule,
+        MatFormFieldModule,
         MatDialogModule,
         MatIconModule,
         MatMenuModule,
         MatRadioModule,
         MatTabsModule,
         MatToolbarModule,
+        MatTooltipModule,
 
         // My imports
         AppRouting
@@ -54,7 +60,9 @@ import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-
         CalculationComponent,
         PageNotFoundComponent,
         StateDialogComponent,
-        RuleDialogComponent
+        RuleDialogComponent,
+        TuringConditionComponent,
+        TwoStackConditionComponent
     ],
     entryComponents: [
         StateDialogComponent,

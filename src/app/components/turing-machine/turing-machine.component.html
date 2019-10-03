@@ -8,14 +8,14 @@
         <input type="text" [(ngModel)]="input">
     </label>
     <button class="mat-button mat-button-base" (click)="calculate()">
-        <span class="mat-button-wrapper">Send</span>
+        <span class="mat-button-wrapper">Calculate</span>
     </button>
 
     <mat-tab-group>
         <mat-tab label="Characters">
             <mat-toolbar class="grid-toolbar">
                 <label>
-                    Input:
+                    New Char:
                     <input type="text" maxlength="1" [(ngModel)]="newChar">
                 </label>
                 <span class="space"></span>
@@ -32,7 +32,6 @@
             <mat-radio-group [(ngModel)]="selectedChar">
                 <mat-radio-button *ngFor="let char of chars; let i = index" [value]="i">{{char}}</mat-radio-button>
             </mat-radio-group>
-
         </mat-tab>
         <mat-tab label="States">
             <mat-toolbar class="grid-toolbar">
@@ -54,8 +53,7 @@
             </mat-toolbar>
             <ag-grid-angular
                 #agGrid
-                style="height: 500px;"
-                class="ag-theme-balham"
+                class="ag-theme-balham page-with-header-height"
                 [rowData]="states"
                 [columnDefs]="stateColumnDefs"
                 [rowSelection]="rowSelection "
@@ -82,8 +80,7 @@
             </mat-toolbar>
             <ag-grid-angular
                 #agGrid
-                style="height: 500px;"
-                class="ag-theme-balham"
+                class="ag-theme-balham page-with-header-height"
                 [rowData]="rules"
                 [columnDefs]="ruleColumnDefs"
                 [rowSelection]="rowSelection "

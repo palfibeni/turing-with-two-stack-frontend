@@ -1,14 +1,76 @@
-<div class="container">
+<div class="container" *ngIf="calculation">
     <h1>Calculation</h1>
     <button class="mat-button mat-button-base" (click)="back()">
         <span class="mat-button-wrapper">Back</span>
     </button>
-    <ag-grid-angular
-            style="height: 500px;"
-            class="ag-theme-balham"
-            [rowData]="calculation.turingConditions"
-            [columnDefs]="conditionColumnDefs"
-            [rowSelection]="rowSelection "
-            (gridReady)="onTuringCalculationGridReady($event)">
-    </ag-grid-angular>
+
+    <mat-tab-group>
+        <mat-tab label="Difference">
+            <div class="container page-height">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="text-center">Turing Run</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="text-center">Two Stack Run</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
+                        <app-turing-condition *ngFor="let turingCondition of calculation.turingConditions"
+                                              [condition]="turingCondition"
+                                              [statesMap]="stateMap"
+                                              class="turing">
+                        </app-turing-condition>
+                    </div>
+                    <div class="col-md-6">
+                        <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
+                        <app-two-stack-condition *ngFor="let turingCondition of calculation.twoStackConditions"
+                                                 [condition]="turingCondition"
+                                                 [statesMap]="stateMap"
+                                                 class="two-stack">
+                        </app-two-stack-condition>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Turing run">
+            <ag-grid-angular
+                    class="ag-theme-balham page-height"
+                    [rowData]="calculation.turingConditions"
+                    [columnDefs]="conditionColumnDefs"
+                    [rowSelection]="rowSelection "
+                    (gridReady)="onTuringCalculationGridReady($event)"
+                    (gridSizeChanged)="onTuringCalculationTabSelected()">
+            </ag-grid-angular>
+        </mat-tab>
+        <mat-tab label="Two Stack run">
+            <ag-grid-angular
+                    class="ag-theme-balham page-height"
+                    [rowData]="calculation.twoStackConditions"
+                    [columnDefs]="conditionColumnDefs"
+                    [rowSelection]="rowSelection "
+                    (gridReady)="onTwoStackCalculationGridReady($event)"
+                    (gridSizeChanged)="onTwoStackCalculationTabSelected()">
+            </ag-grid-angular>
+        </mat-tab>
+    </mat-tab-group>
 </div>
+
+<ng-template #DifferenceHeader >
+    <div class="row">
+        <div class="col-md-4">
+            <span>State</span>
+        </div>
+        <div class="col-md-3">
+            <span>Characters Behind</span>
+        </div>
+        <div class="col-md-2">
+            <span>Current Position</span>
+        </div>
+        <div class="col-md-3">
+            <span>Characters Ahead</span>
+        </div>
+    </div>
+</ng-template>
