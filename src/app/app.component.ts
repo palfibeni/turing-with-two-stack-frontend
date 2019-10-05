@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   public toastConfig: ToasterConfig =
       new ToasterConfig({
-        timeout: 0,
+        timeout: 3000,
         limit: 3,
         positionClass: 'toast-bottom-right'
       });

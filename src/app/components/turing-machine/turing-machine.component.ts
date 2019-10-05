@@ -63,14 +63,12 @@ export class TuringMachineComponent implements OnInit {
     public onStateGridReady(params) {
         this.stateGridApi = params.api;
         this.stateGridColumnApi = params.columnApi;
-        this.setStateData();
         console.log("State grid ready!");
     }
 
     public onRuleGridReady(params) {
         this.ruleGridApi = params.api;
         this.ruleGridColumnApi = params.columnApi;
-        this.setRuleData();
         console.log("Rule grid ready!");
     }
 
@@ -121,6 +119,19 @@ export class TuringMachineComponent implements OnInit {
             });
     }
 
+    public tabSelectionChange(selectedTabIndex) {
+        switch(selectedTabIndex) {
+            case 1:
+                this.stateGridApi.sizeColumnsToFit();
+                break;
+            case 2:
+                this.ruleGridApi.sizeColumnsToFit();
+                break;
+            default:
+                break;
+        }
+    }
+
     public addChar() {
         console.log(`add ${this.newChar}`);
         if (_.contains(this.chars, this.newChar)) {
@@ -128,6 +139,7 @@ export class TuringMachineComponent implements OnInit {
             return;
         }
         this.chars.push(this.newChar);
+        this.newChar = "";
     }
 
     public deleteChar() {
@@ -232,7 +244,7 @@ export class TuringMachineComponent implements OnInit {
             suppressSizeToFit: true,
         },
         {
-            headerName: 'State',
+            headerName: 'Name',
             field: 'name',
             sortable: true,
             filter: true

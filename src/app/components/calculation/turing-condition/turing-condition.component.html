@@ -3,8 +3,8 @@
         <div class="col-md-5">{{statesMap[condition.currentState].name}}</div>
         <div class="col-md-3">
             <ul>
-                <li *ngFor="let char of charactersBehind">{{char}}</li>
                 <li *ngIf="restCharactersBehind.length" matTooltip="{{restCharactersBehind}}">...</li>
+                <li *ngFor="let char of charactersBehind">{{char}}</li>
             </ul>
         </div>
         <div class="col-md-1">

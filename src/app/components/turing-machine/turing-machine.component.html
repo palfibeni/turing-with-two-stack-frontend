@@ -1,17 +1,25 @@
 <div class="container">
-    <h1>
-        {{title}}
-    </h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                {{title}}
+            </h1>
+        </div>
+    </div>
 
-    <label>
-        Input:
-        <input type="text" [(ngModel)]="input">
-    </label>
-    <button class="mat-button mat-button-base" (click)="calculate()">
-        <span class="mat-button-wrapper">Calculate</span>
-    </button>
+    <div class="row">
+        <div class="col-md-12">
+            <label>
+                Input:
+                <input type="text" [(ngModel)]="input">
+            </label>
+            <button class="mat-button mat-button-base" (click)="calculate()">
+                <span class="mat-button-wrapper">Calculate</span>
+            </button>
+        </div>
+    </div>
 
-    <mat-tab-group>
+    <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Characters">
             <mat-toolbar class="grid-toolbar">
                 <label>

@@ -4,7 +4,7 @@
         <span class="mat-button-wrapper">Back</span>
     </button>
 
-    <mat-tab-group>
+    <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Difference">
             <div class="container page-height">
                 <div class="row">
@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
-                        <app-turing-condition *ngFor="let turingCondition of calculation.turingConditions"
+                        <app-turing-condition *ngFor="let turingCondition of turingConditions"
                                               [condition]="turingCondition"
                                               [statesMap]="stateMap"
                                               class="turing">
@@ -26,13 +26,18 @@
                     </div>
                     <div class="col-md-6">
                         <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
-                        <app-two-stack-condition *ngFor="let turingCondition of calculation.twoStackConditions"
+                        <app-two-stack-condition *ngFor="let turingCondition of twoStackConditions"
                                                  [condition]="turingCondition"
                                                  [statesMap]="stateMap"
                                                  class="two-stack">
                         </app-two-stack-condition>
                     </div>
                 </div>
+                <mat-paginator [length]="calculation.turingConditions.length"
+                               [pageSize]="conditionPageSize"
+                               [pageSizeOptions]="conditionPageSizeOptions"
+                               (page)="onPaging($event)">
+                </mat-paginator>
             </div>
         </mat-tab>
         <mat-tab label="Turing run">
@@ -41,8 +46,7 @@
                     [rowData]="calculation.turingConditions"
                     [columnDefs]="conditionColumnDefs"
                     [rowSelection]="rowSelection "
-                    (gridReady)="onTuringCalculationGridReady($event)"
-                    (gridSizeChanged)="onTuringCalculationTabSelected()">
+                    (gridReady)="onTuringCalculationGridReady($event)">
             </ag-grid-angular>
         </mat-tab>
         <mat-tab label="Two Stack run">
@@ -51,8 +55,7 @@
                     [rowData]="calculation.twoStackConditions"
                     [columnDefs]="conditionColumnDefs"
                     [rowSelection]="rowSelection "
-                    (gridReady)="onTwoStackCalculationGridReady($event)"
-                    (gridSizeChanged)="onTwoStackCalculationTabSelected()">
+                    (gridReady)="onTwoStackCalculationGridReady($event)">
             </ag-grid-angular>
         </mat-tab>
     </mat-tab-group>

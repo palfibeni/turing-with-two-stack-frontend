@@ -10,7 +10,9 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatMenuModule,
+    MatPaginatorModule,
     MatRadioModule,
     MatTabsModule,
     MatToolbarModule,
@@ -41,6 +43,7 @@ import {TwoStackConditionComponent} from './components/calculation/two-stack-con
         // Material imports
         MatCheckboxModule,
         MatFormFieldModule,
+        MatInputModule,
         MatDialogModule,
         MatIconModule,
         MatMenuModule,
@@ -48,6 +51,7 @@ import {TwoStackConditionComponent} from './components/calculation/two-stack-con
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,
+        MatPaginatorModule,
 
         // My imports
         AppRouting
