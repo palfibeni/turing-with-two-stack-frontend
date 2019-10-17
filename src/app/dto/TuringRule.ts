@@ -1,5 +1,6 @@
-export class TuringRule{
-    id: number;
+import {Entity} from "./Entity";
+
+export class TuringRule extends Entity {
 
     fromState: number;
 
@@ -10,4 +11,8 @@ export class TuringRule{
     writeCharacter: String;
 
     direction: String;
+
+    public toString(): string {
+        return this.id.toString();
+    }
 }

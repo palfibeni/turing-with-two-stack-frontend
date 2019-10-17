@@ -11,6 +11,8 @@ import {TuringRule} from "../../dto/TuringRule";
 import {MatDialog} from "@angular/material";
 import {StateDialogComponent} from "./state-dialog/state-dialog.component";
 import {RuleDialogComponent} from "./rule-dialog/rule-dialog.component";
+import {identity} from "rxjs";
+import {Entity} from "../../dto/Entity";
 
 @Component({
     selector: 'app-turing-machine',
@@ -37,6 +39,10 @@ export class TuringMachineComponent implements OnInit {
     private newChar: String;
     private input: String;
     private selectedChar: number;
+
+    private jsonEdit: boolean;
+    private jsonMachine: string;
+    private parseError: boolean;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -90,6 +96,7 @@ export class TuringMachineComponent implements OnInit {
         this.states = this.turingMachine.states;
         this.stateMap = _.indexBy(this.states, 'id');
         this.rules = this.turingMachine.rules;
+        this.jsonMachine = JSON.stringify(this.turingMachine, undefined, 2);
     }
 
     private setStateData() {
@@ -119,8 +126,19 @@ export class TuringMachineComponent implements OnInit {
             });
     }
 
+    public save() {
+        this.turingMachineService.saveTuringMachine(this.turingMachine).subscribe(
+            turingMachine => {
+                this.toasterService.pop('success', 'Save Successful', `Turing Machine saved with ID ${turingMachine.id} !`);
+                location.reload();
+            }, ex => {
+                console.log(ex);
+                this.toasterService.pop('error', 'Error', ex.error.message);
+            });
+    }
+
     public tabSelectionChange(selectedTabIndex) {
-        switch(selectedTabIndex) {
+        switch (selectedTabIndex) {
             case 1:
                 this.stateGridApi.sizeColumnsToFit();
                 break;
@@ -143,7 +161,7 @@ export class TuringMachineComponent implements OnInit {
     }
 
     public deleteChar() {
-        console.log(`delete ${this.selectedChar}`);
+        console.log(`delete char ${this.selectedChar}`);
         if (!this.selectedChar) {
             this.toasterService.pop('error', 'No selection', 'You must select a character!');
             return;
@@ -197,7 +215,7 @@ export class TuringMachineComponent implements OnInit {
                 `The character is still in use! (stateId: ${selectedState.id}) (ruleId; ${ruleWhereStateIsUsed.id})`);
             return;
         }
-        console.log(`delete ${selectedState.id} ${this.states.indexOf(selectedState)}`);
+        console.log(`delete state ${selectedState.id}`);
         this.states.splice(this.states.indexOf(selectedState), 1);
         this.setStateData();
     }
@@ -227,9 +245,92 @@ export class TuringMachineComponent implements OnInit {
             return;
         }
         let selectedRule = selectedRows[0];
-        console.log(`delete ${selectedRule.id}`);
+        console.log(`delete rule ${selectedRule.id}`);
         this.rules.splice(this.rules.indexOf(selectedRule), 1);
         this.setStateData();
+    }
+
+    private onJsonChange(event) {
+        // get value from text area
+        let newValue = event.target.value;
+        try {
+            // parse it to json
+            JSON.parse(newValue);
+            this.jsonMachine = newValue;
+            this.parseError = false;
+        } catch (ex) {
+            // set parse error if it fails
+            this.parseError = true;
+        }
+    }
+
+
+    private onJsonEdit() {
+        this.jsonEdit = true;
+    }
+
+    private onJsonCancel() {
+        this.jsonMachine = JSON.stringify(this.turingMachine, undefined, 2);
+        this.jsonEdit = false;
+    }
+
+    private onJsonSave() {
+        console.log("Saving by JSON");
+        if (this.parseError) {
+            this.toasterService.pop('error', 'Not Valid JSON', 'Only Valid JSON can be saved');
+            return;
+        }
+
+        let turingMachineFromJson: TuringMachine = JSON.parse(this.jsonMachine);
+
+        let duplicateTapeCharacters = TuringMachineComponent.findDuplicates(turingMachineFromJson.tapeCharacters);
+        if (duplicateTapeCharacters.size) {
+            let charsJoined = Array.from(duplicateTapeCharacters).join(", ");
+            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate tape characters! ${charsJoined}`);
+            return;
+        }
+        let duplicateStatesByName = TuringMachineComponent.findDuplicateStatesByName(turingMachineFromJson.states);
+        if (duplicateStatesByName.size) {
+            let statesJoined = _.map(Array.from(duplicateStatesByName), state => state.toString()).join(", ");
+            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate named States! ${statesJoined}`);
+            return;
+        }
+        let entities = _.map(turingMachineFromJson.states, state => state.id).concat(_.map(turingMachineFromJson.rules, rule => rule.id));
+        let duplicateByEntity = TuringMachineComponent.findDuplicates(entities);
+        if (duplicateByEntity.size) {
+            let idsJoined = Array.from(duplicateByEntity).join(", ");
+            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate ids! ${idsJoined}`);
+            return;
+        }
+
+        this.turingMachine = JSON.parse(this.jsonMachine);
+        this.initData();
+        this.jsonEdit = false;
+    }
+
+    private static findDuplicates(array: Array<any>, predicateGenerator: Function = TuringMachineComponent.defaultPredicateGenerator()): Set<any> {
+        let duplicates: Set<any> = new Set();
+        for (let index  in array) {
+            let element = array[index];
+            let lastIndex = _.findLastIndex(array, predicateGenerator(element));
+            if (lastIndex != index) {
+                duplicates.add(element);
+            }
+        }
+        return duplicates;
+    }
+
+    private static defaultPredicateGenerator() {
+        return element => {
+            return other => element === other
+        };
+    }
+
+    private static findDuplicateStatesByName(states: Array<MachineState>): Set<MachineState> {
+        let predicateGenerator = (state: MachineState) => {
+            return {name: state.name};
+        };
+        return TuringMachineComponent.findDuplicates(states, predicateGenerator);
     }
 
     // State AG-grid ColumnDefs

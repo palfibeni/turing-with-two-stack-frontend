@@ -7,17 +7,21 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <label>
-                Input:
-                <input type="text" [(ngModel)]="input">
-            </label>
-            <button class="mat-button mat-button-base" (click)="calculate()">
-                <span class="mat-button-wrapper">Calculate</span>
-            </button>
-        </div>
-    </div>
+    <mat-toolbar class="grid-toolbar">
+        <label>
+            Input:
+            <input style="height:1.8em;" type="text" [(ngModel)]="input">
+        </label>
+        <span class="space"></span>
+        <button class="mat-button mat-button-base" (click)="calculate()">
+            <mat-icon>play_arrow</mat-icon>
+            <span class="mat-button-wrapper">Calculate</span>
+        </button>
+        <button class="mat-button mat-button-base" (click)="save()">
+            <mat-icon>save</mat-icon>
+            <span class="mat-button-wrapper">Save</span>
+        </button>
+    </mat-toolbar>
 
     <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Characters">
@@ -41,6 +45,7 @@
                 <mat-radio-button *ngFor="let char of chars; let i = index" [value]="i">{{char}}</mat-radio-button>
             </mat-radio-group>
         </mat-tab>
+
         <mat-tab label="States">
             <mat-toolbar class="grid-toolbar">
                 <span class="space"></span>
@@ -68,6 +73,7 @@
                 (gridReady)="onStateGridReady($event)">
             </ag-grid-angular>
         </mat-tab>
+
         <mat-tab label="Rules">
             <mat-toolbar class="grid-toolbar">
                 <span class="space"></span>
@@ -94,6 +100,38 @@
                 [rowSelection]="rowSelection "
                 (gridReady)="onRuleGridReady($event)">
             </ag-grid-angular>
+        </mat-tab>
+
+        <mat-tab label="JSON">
+            <mat-toolbar class="grid-toolbar">
+                <label *ngIf="jsonEdit && !parseError" style="color: lightgreen">Valid</label>
+                <label *ngIf="jsonEdit && parseError" style="color: red">Not Valid</label>
+                <span class="space"></span>
+                <button *ngIf="jsonEdit" class="mat-button mat-button-base" (click)="onJsonSave()">
+                    <mat-icon>save</mat-icon>
+                    <span class="mat-button-wrapper">Save</span>
+                </button>
+                <button *ngIf="!jsonEdit" class="mat-button mat-button-base" (click)="onJsonEdit()">
+                    <mat-icon>create</mat-icon>
+                    <span class="mat-button-wrapper">Edit</span>
+                </button>
+                <button *ngIf="jsonEdit" class="mat-button mat-button-base" (click)="onJsonCancel()">
+                    <mat-icon>cancel</mat-icon>
+                    <span class="mat-button-wrapper">Cancel</span>
+                </button>
+            </mat-toolbar>
+            <div class="row">
+                <div *ngIf="!jsonEdit" class="col-md-12">
+                    <pre class="page-with-header-height" style="width: 100%;">{{ turingMachine | json }}</pre>
+                </div>
+                <div *ngIf="jsonEdit" class="col-md-12">
+                    <textarea class="page-with-header-height" style="width: 100%;"
+                              [value]="jsonMachine"
+                              (change)="onJsonChange($event)"
+                              (keyup)="onJsonChange($event)">
+                    </textarea>
+                </div>
+            </div>
         </mat-tab>
     </mat-tab-group>
 </div>
