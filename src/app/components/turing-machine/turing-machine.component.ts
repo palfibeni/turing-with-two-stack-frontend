@@ -9,10 +9,8 @@ import {MachineState} from "../../dto/MachineState";
 import {TuringMachine} from "../../dto/TuringMachine";
 import {TuringRule} from "../../dto/TuringRule";
 import {MatDialog} from "@angular/material";
-import {StateDialogComponent} from "./state-dialog/state-dialog.component";
-import {RuleDialogComponent} from "./rule-dialog/rule-dialog.component";
-import {identity} from "rxjs";
-import {Entity} from "../../dto/Entity";
+import {StateDialogComponent} from "./dialog/state-dialog/state-dialog.component";
+import {RuleDialogComponent} from "./dialog/rule-dialog/rule-dialog.component";
 
 @Component({
     selector: 'app-turing-machine',
@@ -28,21 +26,14 @@ export class TuringMachineComponent implements OnInit {
     private ruleGridColumnApi;
     private rowSelection = "single";
 
-    private turingMachine: TuringMachine;
+    private turingMachine: TuringMachine = new TuringMachine();
 
     private title: String;
-    private chars: Array<String>;
-    private states: Array<MachineState>;
-    private stateMap: Array<any>;
-    private rules: Array<TuringRule>;
+    private stateMap: Map<number, MachineState>;
 
     private newChar: String;
     private input: String;
     private selectedChar: number;
-
-    private jsonEdit: boolean;
-    private jsonMachine: string;
-    private parseError: boolean;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -54,15 +45,14 @@ export class TuringMachineComponent implements OnInit {
 
     public ngOnInit(): void {
         const entityId = this.route.snapshot.paramMap.get('entityId');
-        if (!entityId) {
-            this.initNewTuringMachine();
-            this.initData();
-        } else {
+        if (entityId) {
             this.turingMachineService.getTuringMachine(entityId).subscribe(turingMachine => {
                 console.log(turingMachine);
                 this.turingMachine = turingMachine;
-                this.initData();
+                if (this.turingMachine) this.initData();
             });
+        } else {
+            this.initData();
         }
     }
 
@@ -82,30 +72,33 @@ export class TuringMachineComponent implements OnInit {
         this.router.navigate(['']);
     }
 
-    private initNewTuringMachine(): void {
-        this.turingMachine = new TuringMachine();
-    }
-
     private initData(): void {
         if (!this.turingMachine) {
             return;
         }
 
         this.title = this.turingMachine.name;
-        this.chars = this.turingMachine.tapeCharacters;
-        this.states = this.turingMachine.states;
-        this.stateMap = _.indexBy(this.states, 'id');
-        this.rules = this.turingMachine.rules;
-        this.jsonMachine = JSON.stringify(this.turingMachine, undefined, 2);
+        this.stateMap = _.indexBy(this.turingMachine.states, 'id');
     }
 
-    private setStateData() {
-        this.stateGridApi.setRowData(this.states);
+    private initPage(turingMachine: TuringMachine): void {
+        if (!turingMachine) {
+            return;
+        }
+        this.turingMachine = turingMachine;
+
+        this.initData();
+        this.setStateData();
+        this.setRuleData();
+    }
+
+    private setStateData(): void {
+        this.stateGridApi.setRowData(this.turingMachine.states);
         this.stateGridApi.sizeColumnsToFit();
     }
 
-    private setRuleData() {
-        this.ruleGridApi.setRowData(this.rules);
+    private setRuleData(): void {
+        this.ruleGridApi.setRowData(this.turingMachine.rules);
         this.ruleGridApi.sizeColumnsToFit();
     }
 
@@ -126,186 +119,75 @@ export class TuringMachineComponent implements OnInit {
             });
     }
 
-    public save() {
-        this.turingMachineService.saveTuringMachine(this.turingMachine).subscribe(
-            turingMachine => {
-                this.toasterService.pop('success', 'Save Successful', `Turing Machine saved with ID ${turingMachine.id} !`);
-                location.reload();
-            }, ex => {
-                console.log(ex);
-                this.toasterService.pop('error', 'Error', ex.error.message);
-            });
-    }
-
-    public tabSelectionChange(selectedTabIndex) {
-        switch (selectedTabIndex) {
-            case 1:
-                this.stateGridApi.sizeColumnsToFit();
-                break;
-            case 2:
-                this.ruleGridApi.sizeColumnsToFit();
-                break;
-            default:
-                break;
-        }
-    }
-
-    public addChar() {
-        console.log(`add ${this.newChar}`);
-        if (_.contains(this.chars, this.newChar)) {
-            this.toasterService.pop('error', 'Duplicate', `Duplicate Character is not allowed! (${this.newChar})`);
-            return;
-        }
-        this.chars.push(this.newChar);
-        this.newChar = "";
-    }
-
-    public deleteChar() {
-        console.log(`delete char ${this.selectedChar}`);
-        if (!this.selectedChar) {
-            this.toasterService.pop('error', 'No selection', 'You must select a character!');
-            return;
-        }
-        let char = this.chars[this.selectedChar];
-        let ruleWhereCharacterIsUsed = _.find(this.rules, (rule) => {
-            return rule.readCharacter === char
-                || rule.writeCharacter === char;
-        });
-        if (ruleWhereCharacterIsUsed) {
-            this.toasterService.pop(
-                'error', 'Used',
-                `The character is still in use! (char: ${char}) (ruleId; ${ruleWhereCharacterIsUsed.id})`);
-            return;
-        }
-        this.chars.splice(this.selectedChar, 1);
-        this.selectedChar = null;
-    }
-
-    public addState() {
-        let stateDialog = this.dialog.open(StateDialogComponent, {
-            height: '400px',
-            width: '600px',
-            data: {}
-        });
-    }
-
-    public editState() {
-        let selectedRows = this.stateGridApi.getSelectedRows();
-        if (!selectedRows.length) {
-            this.toasterService.pop('error', 'No selection', 'You must select a state!');
-        }
-        let selectedState = selectedRows[0];
-        console.log(`edit ${selectedState.id}`);
-    }
-
-    public deleteState() {
-        let selectedRows = this.stateGridApi.getSelectedRows();
-        if (!selectedRows.length) {
-            this.toasterService.pop('error', 'No selection', 'You must select a state!');
-        }
-        let selectedState = selectedRows[0];
-        let ruleWhereStateIsUsed = _.find(this.rules, (rule) => {
-            return rule.fromState === selectedState.id
-                || rule.toState === selectedState.id;
-        });
-
-        if (ruleWhereStateIsUsed) {
-            this.toasterService.pop(
-                'error', 'Used',
-                `The character is still in use! (stateId: ${selectedState.id}) (ruleId; ${ruleWhereStateIsUsed.id})`);
-            return;
-        }
-        console.log(`delete state ${selectedState.id}`);
-        this.states.splice(this.states.indexOf(selectedState), 1);
-        this.setStateData();
-    }
-
-    public addRule() {
-        let ruleDialog = this.dialog.open(RuleDialogComponent, {
-            height: '400px',
-            width: '600px',
-            data: {}
-        });
-    }
-
-    public editRule() {
-        let selectedRows = this.ruleGridApi.getSelectedRows();
-        if (!selectedRows.length) {
-            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
-            return;
-        }
-        let selectedRule = selectedRows[0];
-        console.log(`edit ${selectedRule.id}`);
-    }
-
-    public deleteRule() {
-        let selectedRows = this.ruleGridApi.getSelectedRows();
-        if (!selectedRows.length) {
-            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
-            return;
-        }
-        let selectedRule = selectedRows[0];
-        console.log(`delete rule ${selectedRule.id}`);
-        this.rules.splice(this.rules.indexOf(selectedRule), 1);
-        this.setStateData();
-    }
-
-    private onJsonChange(event) {
-        // get value from text area
-        let newValue = event.target.value;
+    public save(): void {
         try {
-            // parse it to json
-            JSON.parse(newValue);
-            this.jsonMachine = newValue;
-            this.parseError = false;
+            TuringMachineComponent.validateTuringMachine(this.turingMachine);
+            this.turingMachineService.saveTuringMachine(this.turingMachine).subscribe(
+                turingMachine => {
+                    this.toasterService.pop('success', 'Save Successful', `Turing Machine saved with ID ${turingMachine.id} !`);
+                    location.reload();
+                }, ex => {
+                    console.log(ex);
+                    this.toasterService.pop('error', 'Error', ex.error.message);
+                });
         } catch (ex) {
-            // set parse error if it fails
-            this.parseError = true;
+            this.toasterService.pop('error', 'Turing machine not valid', ex);
         }
     }
 
-
-    private onJsonEdit() {
-        this.jsonEdit = true;
-    }
-
-    private onJsonCancel() {
-        this.jsonMachine = JSON.stringify(this.turingMachine, undefined, 2);
-        this.jsonEdit = false;
-    }
-
-    private onJsonSave() {
-        console.log("Saving by JSON");
-        if (this.parseError) {
-            this.toasterService.pop('error', 'Not Valid JSON', 'Only Valid JSON can be saved');
-            return;
-        }
-
-        let turingMachineFromJson: TuringMachine = JSON.parse(this.jsonMachine);
-
-        let duplicateTapeCharacters = TuringMachineComponent.findDuplicates(turingMachineFromJson.tapeCharacters);
+    public static validateTuringMachine(turingMachine: TuringMachine): void {
+        // Characters duplicate validation
+        let duplicateTapeCharacters = TuringMachineComponent.findDuplicates(turingMachine.tapeCharacters);
         if (duplicateTapeCharacters.size) {
             let charsJoined = Array.from(duplicateTapeCharacters).join(", ");
-            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate tape characters! ${charsJoined}`);
-            return;
+            throw `Found duplicate tape characters! (${charsJoined})`;
         }
-        let duplicateStatesByName = TuringMachineComponent.findDuplicateStatesByName(turingMachineFromJson.states);
+        // Start state validation
+        let startStates = _.filter(turingMachine.states, (state: MachineState) => state.accept);
+        if (startStates.size === 0) {
+            throw `There is no start state!`;
+        }
+        if (startStates.size > 1) {
+            let statesJoined = _.map(Array.from(startStates), (state: MachineState) => MachineState.toString(state)).join(", ");
+            throw `More than one start state!  \n(${statesJoined})`;
+        }
+
+        //State duplicate  by name validation
+        let duplicateStatesByName = TuringMachineComponent.findDuplicateStatesByName(turingMachine.states);
         if (duplicateStatesByName.size) {
-            let statesJoined = _.map(Array.from(duplicateStatesByName), state => state.toString()).join(", ");
-            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate named States! ${statesJoined}`);
-            return;
+            let statesJoined = _.map(Array.from(duplicateStatesByName), (state: MachineState) => MachineState.toString(state)).join('\n, ');
+            throw `Found duplicate named States! \n(${statesJoined})`;
         }
-        let entities = _.map(turingMachineFromJson.states, state => state.id).concat(_.map(turingMachineFromJson.rules, rule => rule.id));
+
+        //Entity duplicate by ID validation
+        let stateIds = _.map(turingMachine.states, (state: MachineState) => state.id);
+        let entities = stateIds.concat(_.map(turingMachine.rules, (rule: TuringRule) => rule.id));
         let duplicateByEntity = TuringMachineComponent.findDuplicates(entities);
         if (duplicateByEntity.size) {
             let idsJoined = Array.from(duplicateByEntity).join(", ");
-            this.toasterService.pop('error', `Not Valid JSON', 'Found duplicate ids! ${idsJoined}`);
-            return;
+            throw `Found duplicate ids! \n(${idsJoined})`;
         }
 
-        this.turingMachine = JSON.parse(this.jsonMachine);
-        this.initData();
-        this.jsonEdit = false;
+        //Rules unknown Character validation
+        let rulesWithUnknownChars: Array<TuringRule> = turingMachine.rules.filter(
+            (rule: TuringRule) => rule.readCharacter != '_' && rule.writeCharacter != '_'
+                && (!_.contains(turingMachine.tapeCharacters, rule.readCharacter)
+                    || !_.contains(turingMachine.tapeCharacters, rule.writeCharacter))
+        );
+        if (rulesWithUnknownChars.length) {
+            let rulesJoined = _.map(rulesWithUnknownChars, (rule: TuringRule) => TuringRule.toString(rule)).join('\n, ');
+            throw `Unknown characters found in rules! \n(${rulesJoined})`;
+        }
+
+        //Rules unknown State validation
+        let rulesWithUnknownState: Array<TuringRule> = turingMachine.rules.filter(
+            (rule: TuringRule) => !_.contains(stateIds, rule.fromState)
+                || !_.contains(stateIds, rule.toState)
+        );
+        if (rulesWithUnknownState.length) {
+            let rulesJoined = rulesWithUnknownState.map((rule: TuringRule) => TuringRule.toString(rule)).join('\n, ');
+            throw `Unknown States found in rules! \n(${rulesJoined})`;
+        }
     }
 
     private static findDuplicates(array: Array<any>, predicateGenerator: Function = TuringMachineComponent.defaultPredicateGenerator()): Set<any> {
@@ -333,6 +215,124 @@ export class TuringMachineComponent implements OnInit {
         return TuringMachineComponent.findDuplicates(states, predicateGenerator);
     }
 
+    public tabSelectionChange(selectedTabIndex) {
+        switch (selectedTabIndex) {
+            case 1:
+                this.stateGridApi.sizeColumnsToFit();
+                break;
+            case 2:
+                this.ruleGridApi.sizeColumnsToFit();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public addChar(): void {
+        console.log(`add ${this.newChar}`);
+        if (!this.newChar.length || !this.newChar.trim()) {
+            this.toasterService.pop('error', 'Empty character', `Empty Character is not allowed! (${this.newChar})`);
+            return;
+        }
+        if (_.contains(this.turingMachine.tapeCharacters, this.newChar)) {
+            this.toasterService.pop('error', 'Found duplicate', `Duplicate Character is not allowed! (${this.newChar})`);
+            return;
+        }
+        this.turingMachine.tapeCharacters.push(this.newChar);
+        this.newChar = "";
+    }
+
+    public deleteChar(): void {
+        console.log(`delete char ${this.selectedChar}`);
+        if (!this.selectedChar) {
+            this.toasterService.pop('error', 'No selection', 'You must select a character!');
+            return;
+        }
+        let char = this.turingMachine.tapeCharacters[this.selectedChar];
+        let ruleWhereCharacterIsUsed = _.find(this.turingMachine.rules, (rule) => {
+            return rule.readCharacter === char
+                || rule.writeCharacter === char;
+        });
+        if (ruleWhereCharacterIsUsed) {
+            this.toasterService.pop(
+                'error', 'Used',
+                `The character is still in use! (char: ${char}) (ruleId; ${ruleWhereCharacterIsUsed.id})`);
+            return;
+        }
+        this.turingMachine.tapeCharacters.splice(this.selectedChar, 1);
+        this.selectedChar = null;
+    }
+
+    public addState(): void {
+        let stateDialog = this.dialog.open(StateDialogComponent, {
+            height: '400px',
+            width: '600px',
+            data: {}
+        });
+    }
+
+    public editState(): void {
+        let selectedRows = this.stateGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a state!');
+        }
+        let selectedState = selectedRows[0];
+        console.log(`edit ${selectedState.id}`);
+    }
+
+    public deleteState(): void {
+        let selectedRows = this.stateGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a state!');
+        }
+        let selectedState = selectedRows[0];
+        let ruleWhereStateIsUsed = _.find(this.turingMachine.rules, (rule) => {
+            return rule.fromState === selectedState.id
+                || rule.toState === selectedState.id;
+        });
+
+        if (ruleWhereStateIsUsed) {
+            this.toasterService.pop(
+                'error', 'Used',
+                `The character is still in use! (stateId: ${selectedState.id}) (ruleId; ${ruleWhereStateIsUsed.id})`);
+            return;
+        }
+        console.log(`delete state ${selectedState.id}`);
+        this.turingMachine.states.splice(this.turingMachine.states.indexOf(selectedState), 1);
+        this.stateMap.delete(selectedState.id);
+        this.setStateData();
+    }
+
+    public addRule(): void {
+        let ruleDialog = this.dialog.open(RuleDialogComponent, {
+            height: '400px',
+            width: '600px',
+            data: {}
+        });
+    }
+
+    public editRule() {
+        let selectedRows = this.ruleGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
+            return;
+        }
+        let selectedRule = selectedRows[0];
+        console.log(`edit ${selectedRule.id}`);
+    }
+
+    public deleteRule(): void {
+        let selectedRows = this.ruleGridApi.getSelectedRows();
+        if (!selectedRows.length) {
+            this.toasterService.pop('error', 'No selection', 'You must select a rule!');
+            return;
+        }
+        let selectedRule = selectedRows[0];
+        console.log(`delete rule ${selectedRule.id}`);
+        this.turingMachine.rules.splice(this.turingMachine.rules.indexOf(selectedRule), 1);
+        this.setRuleData();
+    }
+
     // State AG-grid ColumnDefs
     private stateColumnDefs = [
         {
@@ -341,7 +341,7 @@ export class TuringMachineComponent implements OnInit {
             sortable: true,
             filter: true,
             checkboxSelection: true,
-            width: 70,
+            width: 80,
             suppressSizeToFit: true,
         },
         {
@@ -376,7 +376,7 @@ export class TuringMachineComponent implements OnInit {
         }
     ];
 
-    public static booleanCellRenderer(params) {
+    public static booleanCellRenderer(params): String {
         if (params.value === true) {
             return "<span title='true' class='ag-icon ag-icon-tick content-icon'></span>";
         } else if (params.value === false) {
@@ -396,7 +396,7 @@ export class TuringMachineComponent implements OnInit {
             sortable: true,
             filter: true,
             checkboxSelection: true,
-            width: 70,
+            width: 80,
             suppressSizeToFit: true
         },
         {
@@ -427,7 +427,7 @@ export class TuringMachineComponent implements OnInit {
         }
     ];
 
-    public stateRenderer(params) {
+    public stateRenderer(params): String {
         if (!params.value) {
             return null;
         }

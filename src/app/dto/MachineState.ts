@@ -14,7 +14,7 @@ export class MachineState extends Entity {
         return this.id === other.id || this.name === other.name;
     }
 
-    public toString(): string {
-        return this.id + ' ' + this.name;
+    public static toString(state: MachineState): string {
+        return state.id + ' ' + state.name;
     }
 }

@@ -26,10 +26,11 @@ import {TuringMachineListComponent} from './components/turing-machine-list/turin
 import {TuringMachineComponent} from "./components/turing-machine/turing-machine.component";
 import {CalculationComponent} from "./components/calculation/calculation.component";
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
-import {StateDialogComponent} from './components/turing-machine/state-dialog/state-dialog.component';
-import {RuleDialogComponent} from './components/turing-machine/rule-dialog/rule-dialog.component';
+import {StateDialogComponent} from './components/turing-machine/dialog/state-dialog/state-dialog.component';
+import {RuleDialogComponent} from './components/turing-machine/dialog/rule-dialog/rule-dialog.component';
 import {TuringConditionComponent} from './components/calculation/turing-condition/turing-condition.component';
 import {TwoStackConditionComponent} from './components/calculation/two-stack-condition/two-stack-condition.component';
+import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/turing-machine-json-tab/turing-machine-json-tab.component';
 
 @NgModule({
     imports: [
@@ -66,7 +67,8 @@ import {TwoStackConditionComponent} from './components/calculation/two-stack-con
         StateDialogComponent,
         RuleDialogComponent,
         TuringConditionComponent,
-        TwoStackConditionComponent
+        TwoStackConditionComponent,
+        TuringMachineJsonTabComponent
     ],
     entryComponents: [
         StateDialogComponent,

@@ -19,7 +19,7 @@ export class TuringMachine extends Entity {
         this.rules = new Array<TuringRule>();
     }
 
-    public toString(): string {
-        return this.id + " " + this.name;
+    public static toString(turingMachine: TuringMachine): string {
+        return 'id: ' + turingMachine.id + ' ' + turingMachine.name;
     }
 }

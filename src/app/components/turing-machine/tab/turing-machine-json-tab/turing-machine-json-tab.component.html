@@ -1,0 +1,27 @@
+<mat-toolbar class="grid-toolbar">
+    <label *ngIf="jsonEdit && !parseError" style="color: lightgreen">Valid</label>
+    <label *ngIf="jsonEdit && parseError" style="color: red">Not Valid</label>
+    <span class="space"></span>
+    <button *ngIf="jsonEdit" class="mat-button mat-button-base" (click)="onJsonSave()">
+        <mat-icon>save</mat-icon>
+        <span class="mat-button-wrapper">Save</span>
+    </button>
+    <button *ngIf="!jsonEdit" class="mat-button mat-button-base" (click)="onJsonEdit()">
+        <mat-icon>create</mat-icon>
+        <span class="mat-button-wrapper">Edit</span>
+    </button>
+    <button *ngIf="jsonEdit" class="mat-button mat-button-base" (click)="onJsonCancel()">
+        <mat-icon>cancel</mat-icon>
+        <span class="mat-button-wrapper">Cancel</span>
+    </button>
+</mat-toolbar>
+<div *ngIf="!jsonEdit">
+    <pre class="page-with-header-height" style="width: 100%;">{{ turingMachine | json }}</pre>
+</div>
+<div *ngIf="jsonEdit">
+    <textarea class="page-with-header-height" style="width: 100%;"
+              [value]="jsonMachine"
+              (change)="onJsonChange($event)"
+              (keyup)="onJsonChange($event)">
+    </textarea>
+</div>

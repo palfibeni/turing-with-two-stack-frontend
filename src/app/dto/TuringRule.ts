@@ -12,7 +12,9 @@ export class TuringRule extends Entity {
 
     direction: String;
 
-    public toString(): string {
-        return this.id.toString();
+    public static toString(rule: TuringRule): string {
+        return 'id: ' +  rule.id
+            + ', readCharacter: ' + rule.readCharacter +  ', fromState: ' + rule.fromState
+            + ', writeCharacter: ' + rule.writeCharacter +  ', toState: ' + rule.toState;
     }
 }

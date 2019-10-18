@@ -1,0 +1,10 @@
+mat-toolbar {
+  .space {
+    flex: 1 1 auto;
+  }
+
+  button {
+    display: inline-block !important;
+    float: right;
+  }
+}
