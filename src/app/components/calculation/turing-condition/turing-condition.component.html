@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-5">{{statesMap[condition.currentState].name}}</div>
+        <div class="col-md-5">{{condition.currentState.name}}</div>
         <div class="col-md-3">
             <ul>
                 <li *ngIf="restCharactersBehind.length" matTooltip="{{restCharactersBehind}}">...</li>

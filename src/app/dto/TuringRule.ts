@@ -1,12 +1,13 @@
 import {Entity} from "./Entity";
+import {MachineState} from "./MachineState";
 
 export class TuringRule extends Entity {
 
-    fromState: number;
+    fromState: MachineState;
 
     readCharacter: String;
 
-    toState: number;
+    toState: MachineState;
 
     writeCharacter: String;
 

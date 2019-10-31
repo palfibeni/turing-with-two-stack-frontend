@@ -8,17 +8,16 @@ import {of} from "rxjs/internal/observable/of";
 import {Observable} from "rxjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-
-import {MainComponent} from "./turing-machine.component";
-import {CalculationService} from "../service/calculation.service";
-import {TuringMachineService} from "../service/turing.machine.service";
-import {TuringMachine} from "../dto/TuringMachine";
-import {Calculation} from "../dto/Calculation";
+import {TuringMachine} from "../../dto/TuringMachine";
+import {Calculation} from "../../dto/Calculation";
+import {TuringMachineComponent} from "./turing-machine.component";
+import {TuringMachineService} from "../../service/turing-machine.service";
+import {CalculationService} from "../../service/calculation.service";
 
 @Injectable()
 export class TuringMachineServiceStub {
     public getAnBnCnTuringMachine() : Observable<TuringMachine> {
-        return of({states: [], rules: [], tapeCharacters: []});
+        return of({id: null, name: "", states: [], rules: [], tapeCharacters: [], equals: null});
     }
 }
 
@@ -29,9 +28,9 @@ export class CalculationServiceStub {
     }
 }
 
-describe('MainComponent', () => {
-    let component: MainComponent;
-    let fixture: ComponentFixture<MainComponent>;
+describe('TuringMachineComponent', () => {
+    let component: TuringMachineComponent;
+    let fixture: ComponentFixture<TuringMachineComponent>;
 
     const router = jasmine.createSpyObj('Router', {
         'navigate': ''
@@ -50,7 +49,7 @@ describe('MainComponent', () => {
                 BrowserModule,
                 BrowserAnimationsModule,
                 ToasterModule.forRoot()],
-            declarations: [MainComponent],
+            declarations: [TuringMachineComponent],
             providers: [
                 {provide: Router, useValue: router},
                 {provide: TuringMachineService, useClass: TuringMachineServiceStub},
@@ -60,7 +59,7 @@ describe('MainComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(MainComponent);
+        fixture = TestBed.createComponent(TuringMachineComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

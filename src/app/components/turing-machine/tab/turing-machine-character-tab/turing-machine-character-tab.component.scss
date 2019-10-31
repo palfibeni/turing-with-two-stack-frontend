@@ -1,0 +1,10 @@
+@import "~src/app/components/turing-machine/turing-machine.component";
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+
+  mat-radio-button {
+    padding: 0 5px 0 5px;
+  }
+}

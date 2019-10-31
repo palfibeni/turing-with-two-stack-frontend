@@ -10,6 +10,13 @@ export class MachineState extends Entity {
 
     decline: boolean;
 
+    constructor(id?: number) {
+        super(id);
+        this.start = false;
+        this.accept = false;
+        this.decline = false;
+    }
+
     public equals(other: MachineState): boolean {
         return this.id === other.id || this.name === other.name;
     }

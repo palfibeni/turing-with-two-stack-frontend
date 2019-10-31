@@ -25,85 +25,31 @@
 
     <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Characters">
-            <mat-toolbar class="grid-toolbar">
-                <label>
-                    New Char:
-                    <input type="text" maxlength="1" [(ngModel)]="newChar">
-                </label>
-                <span class="space"></span>
-                <button class="mat-button mat-button-base" (click)="addChar()">
-                    <mat-icon>add</mat-icon>
-                    <span class="mat-button-wrapper">Add</span>
-                </button>
-                <button class="mat-button mat-button-base" (click)="deleteChar()">
-                    <mat-icon>delete</mat-icon>
-                    <span class="mat-button-wrapper">Delete</span>
-                </button>
-            </mat-toolbar>
-
-            <mat-radio-group [(ngModel)]="selectedChar">
-                <mat-radio-button *ngFor="let char of turingMachine.tapeCharacters; let i = index" [value]="i">{{char}}</mat-radio-button>
-            </mat-radio-group>
+            <app-turing-machine-character-tab
+                    [turingMachine]="turingMachine"
+                    (turingMachineChange)="initPage($event)">
+            </app-turing-machine-character-tab>
         </mat-tab>
 
         <mat-tab label="States">
-            <mat-toolbar class="grid-toolbar">
-                <span class="space"></span>
-                <button class="mat-button mat-button-base" (click)="addState()">
-                    <mat-icon>add</mat-icon>
-                    <span class="mat-button-wrapper">Add</span>
-                </button>
-
-                <button class="mat-button mat-button-base" (click)="editState()">
-                    <mat-icon>create</mat-icon>
-                    <span class="mat-button-wrapper">Edit</span>
-                </button>
-
-                <button class="mat-button mat-button-base" (click)="deleteState()">
-                    <mat-icon>delete</mat-icon>
-                    <span class="mat-button-wrapper">Delete</span>
-                </button>
-            </mat-toolbar>
-            <ag-grid-angular
-                #agGrid
-                class="ag-theme-balham page-with-header-height"
-                [rowData]="turingMachine.states"
-                [columnDefs]="stateColumnDefs"
-                [rowSelection]="rowSelection "
-                (gridReady)="onStateGridReady($event)">
-            </ag-grid-angular>
+            <app-turing-machine-state-tab #stateTab
+                    [turingMachine]="turingMachine"
+                    (turingMachineChange)="initPage($event)">
+            </app-turing-machine-state-tab>
         </mat-tab>
 
         <mat-tab label="Rules">
-            <mat-toolbar class="grid-toolbar">
-                <span class="space"></span>
-                <button class="mat-button mat-button-base" (click)="addRule()">
-                    <mat-icon>add</mat-icon>
-                    <span class="mat-button-wrapper">Add</span>
-                </button>
-
-                <button class="mat-button mat-button-base" (click)="editRule()">
-                    <mat-icon>create</mat-icon>
-                    <span class="mat-button-wrapper">Edit</span>
-                </button>
-
-                <button class="mat-button mat-button-base" (click)="deleteRule()">
-                    <mat-icon>delete</mat-icon>
-                    <span class="mat-button-wrapper">Delete</span>
-                </button>
-            </mat-toolbar>
-            <ag-grid-angular
-                #agGrid
-                class="ag-theme-balham page-with-header-height"
-                [rowData]="turingMachine.rules"
-                [columnDefs]="ruleColumnDefs"
-                [rowSelection]="rowSelection "
-                (gridReady)="onRuleGridReady($event)">
-            </ag-grid-angular>
+            <app-turing-machine-rule-tab #ruleTab
+                    [turingMachine]="turingMachine"
+                    (turingMachineChange)="initPage($event)">
+            </app-turing-machine-rule-tab>
         </mat-tab>
 
         <mat-tab label="JSON">
-            <app-turing-machine-json-tab [turingMachine]="turingMachine" (turingMachineChange)="initPage($event)"></app-turing-machine-json-tab>
+            <app-turing-machine-json-tab
+                    [turingMachine]="turingMachine"
+                    (turingMachineChange)="initPage($event)">
+            </app-turing-machine-json-tab>
         </mat-tab>
     </mat-tab-group>
 </div>

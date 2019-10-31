@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AgGridModule} from 'ag-grid-angular/dist/aggrid.module';
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToasterModule} from "angular2-toaster";
@@ -31,6 +31,9 @@ import {RuleDialogComponent} from './components/turing-machine/dialog/rule-dialo
 import {TuringConditionComponent} from './components/calculation/turing-condition/turing-condition.component';
 import {TwoStackConditionComponent} from './components/calculation/two-stack-condition/two-stack-condition.component';
 import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/turing-machine-json-tab/turing-machine-json-tab.component';
+import { TuringMachineStateTabComponent } from './components/turing-machine/tab/turing-machine-state-tab/turing-machine-state-tab.component';
+import { TuringMachineRuleTabComponent } from './components/turing-machine/tab/turing-machine-rule-tab/turing-machine-rule-tab.component';
+import { TuringMachineCharacterTabComponent } from './components/turing-machine/tab/turing-machine-character-tab/turing-machine-character-tab.component';
 
 @NgModule({
     imports: [
@@ -43,6 +46,7 @@ import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/t
 
         // Material imports
         MatCheckboxModule,
+        ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,
@@ -68,7 +72,10 @@ import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/t
         RuleDialogComponent,
         TuringConditionComponent,
         TwoStackConditionComponent,
-        TuringMachineJsonTabComponent
+        TuringMachineJsonTabComponent,
+        TuringMachineStateTabComponent,
+        TuringMachineRuleTabComponent,
+        TuringMachineCharacterTabComponent
     ],
     entryComponents: [
         StateDialogComponent,

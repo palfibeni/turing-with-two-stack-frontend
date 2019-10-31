@@ -10,7 +10,6 @@ import {Condition} from "../../../dto/Condition";
 })
 export class TwoStackConditionComponent implements OnInit {
 
-  @Input('statesMap') statesMap: Array<any>;
   @Input('condition') condition: Condition;
 
   private charactersBehind: Array<String>;

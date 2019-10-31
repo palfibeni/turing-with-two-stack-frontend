@@ -1,5 +1,7 @@
+import {MachineState} from "./MachineState";
+
 export class Condition{
-    currentState: number;
+    currentState: MachineState;
 
     currentPosition: String;
 

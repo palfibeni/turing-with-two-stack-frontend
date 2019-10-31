@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TuringMachineService} from "../../service/turing.machine.service";
+import {TuringMachineService} from "../../service/turing-machine.service";
 import {Router} from "@angular/router";
 import {ToasterService} from "angular2-toaster";
 

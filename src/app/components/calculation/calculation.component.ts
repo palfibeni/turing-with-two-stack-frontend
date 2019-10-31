@@ -24,7 +24,6 @@ export class CalculationComponent implements OnInit {
 
     private turingMachine: TuringMachine;
     private calculation: Calculation;
-    private stateMap: Array<any>;
 
     private conditionLength;
     private conditionPageSize = 6;
@@ -42,9 +41,8 @@ export class CalculationComponent implements OnInit {
             return;
         }
         this.calculation = this.calculationService.calculation;
-        this.conditionLength = this.calculation.turingConditions.length;
+        this.conditionLength = this.calculation.twoStackConditions.length;
         this.turingMachine = this.calculationService.turingMachine;
-        this.stateMap = _.indexBy(this.turingMachine.states, 'id');
         this.onPaging({pageIndex: 0, pageSize: 6, length: this.conditionLength});
     }
 
@@ -86,8 +84,7 @@ export class CalculationComponent implements OnInit {
     private conditionColumnDefs = [
         {
             headerName: 'Current State',
-            field: 'currentState',
-            cellRenderer: _.bind(this.stateRenderer, this)
+            field: 'currentState.name',
         },
         {
             headerName: 'Characters Behind',
@@ -104,12 +101,4 @@ export class CalculationComponent implements OnInit {
             field: 'charactersAhead'
         }
     ];
-
-    public stateRenderer(params) {
-        if (!params.value) {
-            return null;
-        }
-        let state = this.stateMap[params.value];
-        return state && state.name ? state.name : null;
-    }
 }

@@ -20,7 +20,6 @@
                         <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
                         <app-turing-condition *ngFor="let turingCondition of turingConditions"
                                               [condition]="turingCondition"
-                                              [statesMap]="stateMap"
                                               class="turing">
                         </app-turing-condition>
                     </div>
@@ -28,12 +27,11 @@
                         <ng-template [ngTemplateOutlet]="DifferenceHeader"></ng-template>
                         <app-two-stack-condition *ngFor="let turingCondition of twoStackConditions"
                                                  [condition]="turingCondition"
-                                                 [statesMap]="stateMap"
                                                  class="two-stack">
                         </app-two-stack-condition>
                     </div>
                 </div>
-                <mat-paginator [length]="calculation.turingConditions.length"
+                <mat-paginator [length]="calculation.twoStackConditions.length"
                                [pageSize]="conditionPageSize"
                                [pageSizeOptions]="conditionPageSizeOptions"
                                (page)="onPaging($event)">
