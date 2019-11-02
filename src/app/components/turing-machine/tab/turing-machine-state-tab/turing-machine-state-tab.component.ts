@@ -42,8 +42,8 @@ export class TuringMachineStateTabComponent implements OnInit {
 
     public addState(): void {
         let stateDialog = this.dialog.open(StateDialogComponent, {
-            height: '350px',
-            width: '300px',
+            height: '400px',
+            width: '450px',
             data: {states: this.turingMachine.states}
         });
         stateDialog.afterClosed().subscribe(newState => {
@@ -65,8 +65,8 @@ export class TuringMachineStateTabComponent implements OnInit {
         console.log(`edit ${selectedState.id}`);
 
         let stateDialog = this.dialog.open(StateDialogComponent, {
-            height: '350px',
-            width: '300px',
+            height: '400px',
+            width: '450px',
             data: {
                 machineState: selectedState,
                 states: this.turingMachine.states

@@ -14,7 +14,7 @@
     </button>
 </mat-toolbar>
 
-<mat-radio-group [(ngModel)]="selectedChar">
+<mat-radio-group [(ngModel)]="selectedChar" color="primary">
     <mat-radio-button *ngFor="let char of turingMachine.tapeCharacters; let i = index"
                       [value]="i">{{char}}</mat-radio-button>
 </mat-radio-group>

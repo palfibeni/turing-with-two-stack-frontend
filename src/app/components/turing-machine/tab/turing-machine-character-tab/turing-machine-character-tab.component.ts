@@ -34,6 +34,10 @@ export class TuringMachineCharacterTabComponent implements OnInit {
             this.toasterService.pop('error', 'Found duplicate', `Duplicate Character is not allowed! (${this.newChar})`);
             return;
         }
+        if (this.newChar === '#' || this.newChar === '*') {
+            this.toasterService.pop('error', 'Reserved character', `Reserved character is not allowed! ('#', '*')`);
+            return;
+        }
         this.turingMachine.tapeCharacters.push(this.newChar);
         this.newChar = "";
     }

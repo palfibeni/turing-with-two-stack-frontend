@@ -3,26 +3,32 @@
     <form class="example-container" [formGroup]="machineStateForm" (onSubmit)="onOkClick()" >
         <!-- Name -->
         <div class="row">
+            <div class="col-md-3 mx-auto d-flex">
+                <label>Name: </label>
+            </div>
             <div class="col-md-6 mx-auto d-flex">
-                <input formControlName="name" type="text" class="form-control mb-4" placeholder="Name" required>
+                <input formControlName="name" type="text" class="form-control mb-4" required>
             </div>
         </div>
         <!-- Start State -->
         <div class="row">
+            <div class="col-md-3 mx-auto d-flex"> </div>
             <div class="col-md-6 mx-auto d-flex">
-                <mat-checkbox formControlName="start">Start State</mat-checkbox>
+                <mat-checkbox formControlName="start" color="primary">Start State</mat-checkbox>
             </div>
         </div>
         <!-- Accept State -->
         <div class="row">
+            <div class="col-md-3 mx-auto d-flex"></div>
             <div class="col-md-6 mx-auto d-flex">
-                <mat-checkbox formControlName="accept">Accept State</mat-checkbox>
+                <mat-checkbox formControlName="accept" color="primary">Accept State</mat-checkbox>
             </div>
         </div>
         <!-- Decline State -->
         <div class="row">
+            <div class="col-md-3 mx-auto d-flex"> </div>
             <div class="col-md-6 mx-auto d-flex">
-                <mat-checkbox formControlName="decline">Decline State</mat-checkbox>
+                <mat-checkbox formControlName="decline" color="primary">Decline State</mat-checkbox>
             </div>
         </div>
     </form>

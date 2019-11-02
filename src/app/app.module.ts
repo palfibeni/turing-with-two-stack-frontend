@@ -6,6 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToasterModule} from "angular2-toaster";
 import {
+    MatAutocompleteModule,
     MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -13,7 +14,7 @@ import {
     MatInputModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatRadioModule,
+    MatRadioModule, MatSelectModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
@@ -34,6 +35,8 @@ import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/t
 import { TuringMachineStateTabComponent } from './components/turing-machine/tab/turing-machine-state-tab/turing-machine-state-tab.component';
 import { TuringMachineRuleTabComponent } from './components/turing-machine/tab/turing-machine-rule-tab/turing-machine-rule-tab.component';
 import { TuringMachineCharacterTabComponent } from './components/turing-machine/tab/turing-machine-character-tab/turing-machine-character-tab.component';
+import { CalculationDifferenceTabComponent } from './components/calculation/tab/calculation-difference-tab/calculation-difference-tab.component';
+import { CalculationTwoStackInitTabComponent } from './components/calculation/tab/calculation-two-stack-init-tab/calculation-two-stack-init-tab.component';
 
 @NgModule({
     imports: [
@@ -57,6 +60,8 @@ import { TuringMachineCharacterTabComponent } from './components/turing-machine/
         MatToolbarModule,
         MatTooltipModule,
         MatPaginatorModule,
+        MatAutocompleteModule,
+        MatSelectModule,
 
         // My imports
         AppRouting
@@ -75,7 +80,9 @@ import { TuringMachineCharacterTabComponent } from './components/turing-machine/
         TuringMachineJsonTabComponent,
         TuringMachineStateTabComponent,
         TuringMachineRuleTabComponent,
-        TuringMachineCharacterTabComponent
+        TuringMachineCharacterTabComponent,
+        CalculationDifferenceTabComponent,
+        CalculationTwoStackInitTabComponent
     ],
     entryComponents: [
         StateDialogComponent,

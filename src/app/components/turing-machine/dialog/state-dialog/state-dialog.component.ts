@@ -17,8 +17,8 @@ export class StateDialogComponent implements OnInit {
     private machineStateForm: FormGroup;
     private title: string;
 
-    private machineState: MachineState;
-    private states: Array<MachineState>;
+    private readonly machineState: MachineState;
+    private readonly states: Array<MachineState>;
 
     constructor(public dialogRef: MatDialogRef<StateDialogComponent>,
                 private fb: FormBuilder,
@@ -27,12 +27,12 @@ export class StateDialogComponent implements OnInit {
                 @Inject(MAT_DIALOG_DATA) public data: any) {
         this.states = data.states;
         if (data.machineState) {
+            this.title = 'Edit state';
             this.machineState = data.machineState;
-            this.title = `Edit  ${this.machineState.name} state`;
             this.states.splice(this.states.indexOf(this.machineState), 1);
         } else {
+            this.title = 'New state';
             this.machineState = new MachineState();
-            this.title = "New State";
         }
 
         this.machineStateForm = fb.group({
@@ -64,7 +64,13 @@ export class StateDialogComponent implements OnInit {
 
     private validateState(state: MachineState): void {
         if (!state.name) {
-            throw "Name cannot be empty!";
+            throw 'Name cannot be empty!';
+        }
+        if (state.name === 'READ_INPUT_TO_LEFT') {
+            throw '"READ_INPUT_TO_LEFT" is a reserved state name!';
+        }
+        if (state.name === 'COPY_INPUT_TO_RIGHT') {
+            throw '"COPY_INPUT_TO_RIGHT" is a reserved state name!';
         }
         let statesCopy = _.clone(this.states);
         statesCopy.push(state);

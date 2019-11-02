@@ -20,10 +20,10 @@ export class TuringConditionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.charactersBehind = _.last(this.condition.charactersBehind, 3);
-    this.restCharactersBehind = _.initial(this.condition.charactersBehind, 3);
-    this.charactersAhead = _.first(this.condition.charactersAhead, 3);
-    this.restCharactersAhead = _.rest(this.condition.charactersAhead, 3);
+    this.charactersBehind = _.last(this.condition.charactersBehind, 4);
+    this.restCharactersBehind = _.initial(this.condition.charactersBehind, 4);
+    this.charactersAhead = _.first(this.condition.charactersAhead, 4);
+    this.restCharactersAhead = _.rest(this.condition.charactersAhead, 4);
   }
 
 }
