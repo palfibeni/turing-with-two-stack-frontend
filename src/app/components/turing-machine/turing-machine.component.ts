@@ -5,7 +5,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CalculationService} from "../../service/calculation.service";
 import {TuringMachineService} from "../../service/turing-machine.service";
 import {TuringMachine} from "../../dto/TuringMachine";
-import {MatDialog} from "@angular/material";
 import {TuringMachineValidator} from "../../validator/turing-machine.validator";
 import {TuringMachineCharacterTabComponent} from "./tab/turing-machine-character-tab/turing-machine-character-tab.component";
 import {TuringMachineStateTabComponent} from "./tab/turing-machine-state-tab/turing-machine-state-tab.component";
@@ -37,9 +36,8 @@ export class TuringMachineComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private toasterService: ToasterService,
-                private dialog: MatDialog,
                 private turingMachineService: TuringMachineService,
-                private calculationService: CalculationService,
+                public calculationService: CalculationService,
                 private turingMachineValidator: TuringMachineValidator) {
     }
 
@@ -67,7 +65,7 @@ export class TuringMachineComponent implements OnInit {
         this.ruleTab.refreshTab();
     }
 
-    public async calculate() {
+    public calculate() {
         if (!this.input) {
             this.toasterService.pop('error', 'Error', 'Input cannot be empty!');
             return;

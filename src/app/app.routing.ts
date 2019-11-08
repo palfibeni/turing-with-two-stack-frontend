@@ -28,8 +28,9 @@ const appRoutes: Routes = [
         redirectTo: '/turing-machine-list',
         pathMatch: 'full'
     },
-    { path: '**', component: PageNotFoundComponent }
+    {path: '**', component: PageNotFoundComponent}
 ];
+
 @NgModule({
     imports: [
         RouterModule.forRoot(appRoutes)],

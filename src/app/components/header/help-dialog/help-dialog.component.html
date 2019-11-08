@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Help</h2>
+<mat-dialog-content>
+    <p>
+        The application is made to prove that every Turing-machine can be implemented by two stack machine.<br>
+        For each defined Turing-machine, the program will create an equivalent two stack machine,
+        and for the given input creates a difference table, on the two machines run.<br>
+        There is some reserved keyword for creating the two stack machine, and there is memory related restriction too,
+        the maximum length of the state transitions is limited at 10000.<br>
+        The application supports non-deterministic rules too, but there processor related restrictions there too.<br>
+        You can define Turing-machines, by adding the tape characters, states, and rules on separate tabs, or by
+        creating a JSON for it, following these rules:
+    </p>
+    <ul>
+        <li>Reserved characters are '*' and '#'.</li>
+        <li>There should be no duplicated characters.</li>
+        <li>Reserved state names are 'READ_INPUT_TO_LEFT' and 'COPY_INPUT_TO_RIGHT'.</li>
+        <li>There should be no duplicated states, they are unique to name and id.</li>
+        <li>There should be only one start state.</li>
+        <li>To define a rule, you have to select a fromState, toState, readCharacter, writeCharacter, and a direction,
+            this follows the original Turing-machine rule convention.
+        </li>
+        <li>There should be no duplicated rule, they are unique to ID's.</li>
+        <li>After creating a rule, you cannot delete the states and characters, only after deleting said rule.</li>
+    </ul>
+    <p>
+        The two stack machine generation is automatic, once you gave an input, and fire a calculation event.<br>
+        The initialization of the two stack of the generated machine, can be seen visually on the 'Two Stack
+        Initialization' tab.
+        It can be split into two parts by definition, first reading the input to the left stack, and then move them the
+        right stack.
+        This is done with the usage of the reserved state names ('READ_INPUT_TO_LEFT' and 'COPY_INPUT_TO_RIGHT').<br>
+        The '#' reserved character is the stack bottom symbol.<br>
+        The '*' is the joker symbol, which is interpreted as any character outside of the stack bottom,
+        and is used to create rule sets, instead of individual rules, because through the simulation of the
+        Turing-machine
+        the left stacks top character is not evident, only when moving backwards, and in this case, we just copy it to
+        the right stack.<br>
+        The actual Turing-machine simulation and the difference between the Turing-machine's run is on the 'Difference'
+        tab.<br>
+        On the remaining two tab there are tables for both the Turing-machine's and the two stack machine's run.
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions class="justify-content-center">
+    <button class="mat-button" mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

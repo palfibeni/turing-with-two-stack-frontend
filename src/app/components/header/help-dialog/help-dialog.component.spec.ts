@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {TuringConditionComponent} from './turing-condition.component';
+import {HelpDialogComponent} from './help-dialog.component';
 
-describe('TuringConditionComponent', () => {
-    let component: TuringConditionComponent;
-    let fixture: ComponentFixture<TuringConditionComponent>;
+describe('HelpDialogComponent', () => {
+    let component: HelpDialogComponent;
+    let fixture: ComponentFixture<HelpDialogComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TuringConditionComponent]
+            declarations: [HelpDialogComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TuringConditionComponent);
+        fixture = TestBed.createComponent(HelpDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

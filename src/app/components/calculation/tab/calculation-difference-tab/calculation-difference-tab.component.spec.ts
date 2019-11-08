@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CalculationDifferenceTabComponent } from './calculation-difference-tab.component';
+import {CalculationDifferenceTabComponent} from './calculation-difference-tab.component';
 
 describe('CalculationDifferenceTabComponent', () => {
-  let component: CalculationDifferenceTabComponent;
-  let fixture: ComponentFixture<CalculationDifferenceTabComponent>;
+    let component: CalculationDifferenceTabComponent;
+    let fixture: ComponentFixture<CalculationDifferenceTabComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CalculationDifferenceTabComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CalculationDifferenceTabComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CalculationDifferenceTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CalculationDifferenceTabComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

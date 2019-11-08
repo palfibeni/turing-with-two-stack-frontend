@@ -1,21 +1,22 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from "@angular/material";
+import {HelpDialogComponent} from "./help-dialog/help-dialog.component";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
 
-  @Output() public sidenavToggle = new EventEmitter();
+    constructor(private dialog: MatDialog) {
+    }
 
-  constructor() { }
+    public ngOnInit(): void {
+    }
 
-  ngOnInit() {
-  }
-
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
-  }
+    public showHelp(): void {
+        this.dialog.open(HelpDialogComponent, {});
+    }
 
 }

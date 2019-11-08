@@ -15,20 +15,17 @@ export class MachineStateValidator extends Validator {
 
     public validateMachineStates(states: Array<MachineState>): void {
         // Start state validation
+        for (let state of states) {
+            this.validateState(state);
+        }
+
         let startStates = _.filter(states, (state: MachineState) => state.accept);
         if (startStates.size === 0) {
             throw `There is no start state!`;
         }
         if (startStates.size > 1) {
-            let statesJoined = _.map(Array.from(startStates), (state: MachineState) => MachineState.toString(state)).join(", ");
+            let statesJoined = this.joinStates(startStates);
             throw `More than one start state!  \n(${statesJoined})`;
-        }
-
-        // State duplicate by name validation
-        let duplicateStatesByName = this.findDuplicateStatesByName(states);
-        if (duplicateStatesByName.size) {
-            let statesJoined = _.map(Array.from(duplicateStatesByName), (state: MachineState) => MachineState.toString(state)).join('\n, ');
-            throw `Found duplicate named States! \n(${statesJoined})`;
         }
 
         // State duplicate by ID validation
@@ -41,6 +38,29 @@ export class MachineStateValidator extends Validator {
             let idsJoined = Array.from(duplicateStatesById).join(", ");
             throw `Found duplicate state ids! \n(${idsJoined})`;
         }
+
+        // State duplicate by name validation
+        let duplicateStatesByName = this.findDuplicateStatesByName(states);
+        if (duplicateStatesByName.size) {
+            let statesJoined = this.joinStates(duplicateStatesByName);
+            throw `Found duplicate named States! \n(${statesJoined})`;
+        }
+    }
+
+    private validateState(state: MachineState): void {
+        if (!state.name) {
+            throw `On states name field cannot be empty!`;
+        }
+        if (state.name === 'READ_INPUT_TO_LEFT') {
+            throw `"READ_INPUT_TO_LEFT" is a reserved state name!`;
+        }
+        if (state.name === 'COPY_INPUT_TO_RIGHT') {
+            throw `"COPY_INPUT_TO_RIGHT" is a reserved state name!`;
+        }
+    }
+
+    private joinStates(duplicateStatesByName) {
+        return _.map(Array.from(duplicateStatesByName), (state: MachineState) => state.toString()).join('\n, ');
     }
 
     private findDuplicateStatesByName(states: Array<MachineState>): Set<MachineState> {

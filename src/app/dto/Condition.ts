@@ -1,6 +1,6 @@
 import {MachineState} from "./MachineState";
 
-export class Condition{
+export class Condition {
     currentState: MachineState;
 
     currentPosition: String;

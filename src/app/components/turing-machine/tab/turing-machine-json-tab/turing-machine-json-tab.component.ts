@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TuringMachine} from "../../../../dto/TuringMachine";
 import {ToasterService} from "angular2-toaster";
 import {TuringMachineValidator} from "../../../../validator/turing-machine.validator";
+import {TuringRule} from "../../../../dto/TuringRule";
+import {MachineState} from "../../../../dto/MachineState";
 
 @Component({
     selector: 'app-turing-machine-json-tab',
@@ -62,7 +64,11 @@ export class TuringMachineJsonTabComponent implements OnInit {
             this.turingMachineValidator.validateTuringMachine(turingMachineFromJson);
 
             this.jsonEdit = false;
-            this.turingMachine = JSON.parse(this.jsonMachine);
+            let parsedTuringMachine: TuringMachine = JSON.parse(this.jsonMachine);
+
+            let rules = parsedTuringMachine.rules.map(rule => Object.assign(new TuringRule(), rule));
+            let states = parsedTuringMachine.states.map(state => Object.assign(new MachineState(), state));
+            this.turingMachine = new TuringMachine(parsedTuringMachine.id, parsedTuringMachine.name, parsedTuringMachine.description, parsedTuringMachine.tapeCharacters, states, rules);
             this.turingMachineChange.emit(this.turingMachine);
         } catch (ex) {
             this.toasterService.pop('error', 'Not Valid JSON', ex);

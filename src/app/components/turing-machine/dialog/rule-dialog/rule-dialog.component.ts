@@ -1,10 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
+import {_} from 'underscore';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MachineState} from "../../../../dto/MachineState";
-import {MachineStateValidator} from "../../../../validator/machine-state.validator";
 import {ToasterService} from "angular2-toaster";
 import {TuringRule} from "../../../../dto/TuringRule";
+import {TuringRuleValidator} from "../../../../validator/turing-rule.validator";
 
 @Component({
     selector: 'app-rule-dialog',
@@ -23,12 +24,12 @@ export class RuleDialogComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<RuleDialogComponent>,
                 private fb: FormBuilder,
-                private machineStateValidator: MachineStateValidator,
+                private turingRuleValidator: TuringRuleValidator,
                 private toasterService: ToasterService,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
-        this.tapeCharacters = data.turingMachine.tapeCharacters;
-        this.states = data.turingMachine.states;
-        this.rules = data.turingMachine.rules;
+        this.tapeCharacters = data.tapeCharacters;
+        this.states = data.states;
+        this.rules = data.rules;
         if (data.rule) {
             this.title = `Edit rule`;
             this.rule = data.rule;
@@ -61,34 +62,14 @@ export class RuleDialogComponent implements OnInit {
             this.rule.writeCharacter = rawRule.writeCharacter;
             this.rule.direction = rawRule.direction;
 
-            this.validateRule(this.rule);
+            this.turingRuleValidator.validateTuringRules(
+                this.tapeCharacters,
+                this.states,
+                _.union(this.rules, [this.rule]));
 
             this.dialogRef.close(this.rule);
         } catch (ex) {
             this.toasterService.pop('error', 'Turing machine not valid', ex);
-        }
-    }
-
-    private validateRule(newRule: TuringRule): void {
-        if(!newRule.toState) {
-            throw 'To State cannot be empty!';
-        }
-        if(!newRule.readCharacter) {
-            throw 'Read Character cannot be empty!';
-        }
-        if(!newRule.fromState) {
-            throw 'From State cannot be empty!';
-        }
-        if(!newRule.toState) {
-            throw 'Write Character cannot be empty!';
-        }
-        if(!newRule.direction) {
-            throw 'Direction cannot be empty!';
-        }
-        for (let rule of this.rules) {
-            if (newRule.equals(rule)) {
-                throw 'The given rule is already exists!';
-            }
         }
     }
 

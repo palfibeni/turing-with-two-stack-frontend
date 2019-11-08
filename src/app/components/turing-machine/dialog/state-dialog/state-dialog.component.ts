@@ -54,7 +54,7 @@ export class StateDialogComponent implements OnInit {
             this.machineState.accept = rawState.accept;
             this.machineState.decline = rawState.decline;
 
-            this.validateState(this.machineState);
+            this.machineStateValidator.validateMachineStates(_.union(this.states, [this.machineState]));
 
             this.dialogRef.close(this.machineState);
         } catch (ex) {
@@ -63,18 +63,6 @@ export class StateDialogComponent implements OnInit {
     }
 
     private validateState(state: MachineState): void {
-        if (!state.name) {
-            throw 'Name cannot be empty!';
-        }
-        if (state.name === 'READ_INPUT_TO_LEFT') {
-            throw '"READ_INPUT_TO_LEFT" is a reserved state name!';
-        }
-        if (state.name === 'COPY_INPUT_TO_RIGHT') {
-            throw '"COPY_INPUT_TO_RIGHT" is a reserved state name!';
-        }
-        let statesCopy = _.clone(this.states);
-        statesCopy.push(state);
-        this.machineStateValidator.validateMachineStates(statesCopy);
     }
 
     private closeDialog() {

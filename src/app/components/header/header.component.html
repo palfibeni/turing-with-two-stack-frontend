@@ -1,9 +1,21 @@
 <mat-toolbar color="primary">
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <a routerLink="/turing-machine-list">Turing Machines</a>
-      </li>
-    </ul>
-  </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <ul fxLayoutGap="15px" class="navigation-items">
+                    <li>
+                        <a routerLink="/turing-machine-list">Turing Machines</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-1">
+                <button class="mat-button mat-button-base" (click)="showHelp()">
+                    <mat-icon>help</mat-icon>
+                    <span class="mat-button-wrapper">Help</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </mat-toolbar>

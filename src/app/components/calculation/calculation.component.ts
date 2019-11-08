@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {_} from 'underscore';
-import {PageEvent} from "@angular/material";
 import {Router} from "@angular/router";
 
 import {Calculation} from "../../dto/Calculation";
-import {TuringMachine} from "../../dto/TuringMachine";
 import {CalculationService} from "../../service/calculation.service";
 import {Condition} from "../../dto/Condition";
 
@@ -22,7 +20,6 @@ export class CalculationComponent implements OnInit {
     private twoStackCalculationGridColumnApi;
     private rowSelection;
 
-    private turingMachine: TuringMachine;
     public calculation: Calculation;
 
     public twoStackInitConditions: Array<Condition>;
@@ -46,7 +43,7 @@ export class CalculationComponent implements OnInit {
     }
 
     public tabSelectionChange(selectedTabIndex) {
-        switch(selectedTabIndex) {
+        switch (selectedTabIndex) {
             case 2:
                 this.turingCalculationGridApi.sizeColumnsToFit();
                 break;

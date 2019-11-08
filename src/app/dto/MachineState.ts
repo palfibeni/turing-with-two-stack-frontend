@@ -16,6 +16,7 @@ export class MachineState extends Entity {
         this.accept = false;
         this.decline = false;
     }
+
     public equals(other: MachineState): boolean {
         if (this.id != null && other.id != null) {
             return this.id === other.id;
@@ -25,5 +26,9 @@ export class MachineState extends Entity {
 
     public static toString(state: MachineState): string {
         return state.id + ' ' + state.name;
+    }
+
+    public toString = (): string => {
+        return this.id + ' ' + this.name;
     }
 }

@@ -1,57 +1,57 @@
 <div class="container page-height">
-  <div class="row">
-    <div class="col-md-6">
-      <h2 class="text-center">Turing Run</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="text-center">Turing Run</h2>
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-center">Two Stack Run</h2>
+        </div>
     </div>
-    <div class="col-md-6">
-      <h2 class="text-center">Two Stack Run</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <span>State</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Characters Behind</span>
+                </div>
+                <div class="col-md-2">
+                    <span>Current Position</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Characters Ahead</span>
+                </div>
+            </div>
+            <app-turing-condition *ngFor="let turingCondition of turingConditions"
+                                  [condition]="turingCondition"
+                                  class="turing">
+            </app-turing-condition>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <span>State</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Left Stack</span>
+                </div>
+                <div class="col-md-2">
+                    <span>Input Character</span>
+                </div>
+                <div class="col-md-3">
+                    <span>Right Stack</span>
+                </div>
+            </div>
+            <app-two-stack-condition *ngFor="let twoStackCondition of twoStackConditions"
+                                     [condition]="twoStackCondition"
+                                     class="two-stack">
+            </app-two-stack-condition>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-4">
-          <span>State</span>
-        </div>
-        <div class="col-md-3">
-          <span>Characters Behind</span>
-        </div>
-        <div class="col-md-2">
-          <span>Current Position</span>
-        </div>
-        <div class="col-md-3">
-          <span>Characters Ahead</span>
-        </div>
-      </div>
-      <app-turing-condition *ngFor="let turingCondition of turingConditions"
-                            [condition]="turingCondition"
-                            class="turing">
-      </app-turing-condition>
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-4">
-          <span>State</span>
-        </div>
-        <div class="col-md-3">
-          <span>Left Stack</span>
-        </div>
-        <div class="col-md-2">
-          <span>Input Character</span>
-        </div>
-        <div class="col-md-3">
-          <span>Right Stack</span>
-        </div>
-      </div>
-      <app-two-stack-condition *ngFor="let twoStackCondition of twoStackConditions"
-                               [condition]="twoStackCondition"
-                               class="two-stack">
-      </app-two-stack-condition>
-    </div>
-  </div>
-  <mat-paginator [length]="calculation.twoStackConditions.length"
-                 [pageSize]="conditionPageSize"
-                 [pageSizeOptions]="conditionPageSizeOptions"
-                 (page)="onPaging($event)">
-  </mat-paginator>
+    <mat-paginator [length]="calculation.twoStackConditions.length"
+                   [pageSize]="conditionPageSize"
+                   [pageSizeOptions]="conditionPageSizeOptions"
+                   (page)="onPaging($event)">
+    </mat-paginator>
 </div>

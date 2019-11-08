@@ -14,7 +14,8 @@ import {
     MatInputModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatRadioModule, MatSelectModule,
+    MatRadioModule,
+    MatSelectModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
@@ -31,12 +32,13 @@ import {StateDialogComponent} from './components/turing-machine/dialog/state-dia
 import {RuleDialogComponent} from './components/turing-machine/dialog/rule-dialog/rule-dialog.component';
 import {TuringConditionComponent} from './components/calculation/turing-condition/turing-condition.component';
 import {TwoStackConditionComponent} from './components/calculation/two-stack-condition/two-stack-condition.component';
-import { TuringMachineJsonTabComponent } from './components/turing-machine/tab/turing-machine-json-tab/turing-machine-json-tab.component';
-import { TuringMachineStateTabComponent } from './components/turing-machine/tab/turing-machine-state-tab/turing-machine-state-tab.component';
-import { TuringMachineRuleTabComponent } from './components/turing-machine/tab/turing-machine-rule-tab/turing-machine-rule-tab.component';
-import { TuringMachineCharacterTabComponent } from './components/turing-machine/tab/turing-machine-character-tab/turing-machine-character-tab.component';
-import { CalculationDifferenceTabComponent } from './components/calculation/tab/calculation-difference-tab/calculation-difference-tab.component';
-import { CalculationTwoStackInitTabComponent } from './components/calculation/tab/calculation-two-stack-init-tab/calculation-two-stack-init-tab.component';
+import {TuringMachineJsonTabComponent} from './components/turing-machine/tab/turing-machine-json-tab/turing-machine-json-tab.component';
+import {TuringMachineStateTabComponent} from './components/turing-machine/tab/turing-machine-state-tab/turing-machine-state-tab.component';
+import {TuringMachineRuleTabComponent} from './components/turing-machine/tab/turing-machine-rule-tab/turing-machine-rule-tab.component';
+import {TuringMachineCharacterTabComponent} from './components/turing-machine/tab/turing-machine-character-tab/turing-machine-character-tab.component';
+import {CalculationDifferenceTabComponent} from './components/calculation/tab/calculation-difference-tab/calculation-difference-tab.component';
+import {CalculationTwoStackInitTabComponent} from './components/calculation/tab/calculation-two-stack-init-tab/calculation-two-stack-init-tab.component';
+import {HelpDialogComponent} from './components/header/help-dialog/help-dialog.component';
 
 @NgModule({
     imports: [
@@ -82,11 +84,13 @@ import { CalculationTwoStackInitTabComponent } from './components/calculation/ta
         TuringMachineRuleTabComponent,
         TuringMachineCharacterTabComponent,
         CalculationDifferenceTabComponent,
-        CalculationTwoStackInitTabComponent
+        CalculationTwoStackInitTabComponent,
+        HelpDialogComponent
     ],
     entryComponents: [
         StateDialogComponent,
-        RuleDialogComponent
+        RuleDialogComponent,
+        HelpDialogComponent
     ],
     bootstrap: [
         AppComponent

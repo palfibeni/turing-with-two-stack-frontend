@@ -6,7 +6,8 @@
 
     <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Difference">
-            <app-calculation-difference-tab [calculation]="calculation"></app-calculation-difference-tab>
+            <app-calculation-difference-tab *ngIf="calculation"
+                                            [calculation]="calculation"></app-calculation-difference-tab>
         </mat-tab>
         <mat-tab label="Two Stack Initialization">
             <app-calculation-two-stack-init-tab [twoStackInitConditions]="twoStackInitConditions">

@@ -3,6 +3,9 @@ import {HttpClient} from '@angular/common/http';
 
 import {TuringMachine} from "../dto/TuringMachine";
 import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import {TuringRule} from "../dto/TuringRule";
+import {MachineState} from "../dto/MachineState";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +21,13 @@ export class TuringMachineService {
     }
 
     public getTuringMachine(id: string): Observable<TuringMachine> {
-        return this.httpClient.get<TuringMachine>(`${this.apiURL}/turing-machine/${id}`);
+        return this.httpClient.get<TuringMachine>(`${this.apiURL}/turing-machine/${id}`).pipe(
+            map(res => {
+                let rules = res.rules.map(rule => Object.assign(new TuringRule(), rule));
+                let states = res.states.map(state => Object.assign(new MachineState(), state));
+                return new TuringMachine(res.id, res.name, res.description, res.tapeCharacters, states, rules);
+            })
+        );
     }
 
     public saveTuringMachine(turingMachine: TuringMachine): Observable<TuringMachine> {

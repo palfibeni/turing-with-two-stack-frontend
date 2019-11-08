@@ -19,6 +19,12 @@ export class TuringRule extends Entity {
             + ', writeCharacter: ' + rule.writeCharacter + ', toState: ' + rule.toState;
     }
 
+    public toString = (): string => {
+        return 'id: ' + this.id
+            + ', readCharacter: ' + this.readCharacter + ', fromState: ' + this.fromState.toString()
+            + ', writeCharacter: ' + this.writeCharacter + ', toState: ' + this.toState.toString();
+    };
+
     public equals(other: TuringRule): boolean {
         if (this.id != null && other.id != null) {
             return this.id === other.id;

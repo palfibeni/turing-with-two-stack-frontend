@@ -33,15 +33,15 @@
 
         <mat-tab label="States">
             <app-turing-machine-state-tab #stateTab
-                    [turingMachine]="turingMachine"
-                    (turingMachineChange)="initPage($event)">
+                                          [turingMachine]="turingMachine"
+                                          (turingMachineChange)="initPage($event)">
             </app-turing-machine-state-tab>
         </mat-tab>
 
         <mat-tab label="Rules">
             <app-turing-machine-rule-tab #ruleTab
-                    [turingMachine]="turingMachine"
-                    (turingMachineChange)="initPage($event)">
+                                         [turingMachine]="turingMachine"
+                                         (turingMachineChange)="initPage($event)">
             </app-turing-machine-rule-tab>
         </mat-tab>
 

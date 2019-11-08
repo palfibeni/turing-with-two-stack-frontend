@@ -1,66 +1,77 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AgGridModule} from "ag-grid-angular";
 import {ToasterModule, ToasterService} from "angular2-toaster";
 import {FormsModule} from "@angular/forms";
-import {Injectable} from "@angular/core";
-import {of} from "rxjs/internal/observable/of";
-import {Observable} from "rxjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-import {TuringMachine} from "../../dto/TuringMachine";
-import {Calculation} from "../../dto/Calculation";
 import {TuringMachineComponent} from "./turing-machine.component";
 import {TuringMachineService} from "../../service/turing-machine.service";
 import {CalculationService} from "../../service/calculation.service";
-
-@Injectable()
-export class TuringMachineServiceStub {
-    public getAnBnCnTuringMachine() : Observable<TuringMachine> {
-        return of({id: null, name: "", states: [], rules: [], tapeCharacters: [], equals: null});
-    }
-}
-
-@Injectable()
-export class CalculationServiceStub {
-    public calculate(turingMachine: TuringMachine, input: String): Observable<Calculation> {
-        return of({turingConditions: [], twoStackConditions: []});
-    }
-}
+import {TuringMachineJsonTabComponent} from "./tab/turing-machine-json-tab/turing-machine-json-tab.component";
+import {TuringMachineRuleTabComponent} from "./tab/turing-machine-rule-tab/turing-machine-rule-tab.component";
+import {TuringMachineStateTabComponent} from "./tab/turing-machine-state-tab/turing-machine-state-tab.component";
+import {TuringMachineCharacterTabComponent} from "./tab/turing-machine-character-tab/turing-machine-character-tab.component";
+import {
+    MatDialog,
+    MatDialogModule,
+    MatIconModule,
+    MatRadioModule,
+    MatTabsModule,
+    MatToolbarModule
+} from "@angular/material";
+import {MockTuringMachineService} from "../../testing/mock-turing-machine.service";
+import {MockCalculationService} from "../../testing/mock-calculation.service";
+import anything = jasmine.anything;
 
 describe('TuringMachineComponent', () => {
     let component: TuringMachineComponent;
     let fixture: ComponentFixture<TuringMachineComponent>;
+    let calculationService: CalculationService;
+    let toasterService: ToasterService;
 
     const router = jasmine.createSpyObj('Router', {
         'navigate': ''
     });
-    const toasterService = jasmine.createSpyObj('ToasterService', {
-        'pop': ''
-    });
-    const calculationService = jasmine.createSpyObj('CalculationService', {
-        'calculate': ''
-    });
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                FormsModule,
                 AgGridModule.withComponents([]),
+                FormsModule,
                 BrowserModule,
                 BrowserAnimationsModule,
+                MatIconModule,
+                MatToolbarModule,
+                MatRadioModule,
+                MatRadioModule,
+                MatTabsModule,
+                MatDialogModule,
                 ToasterModule.forRoot()],
-            declarations: [TuringMachineComponent],
+            declarations: [
+                TuringMachineComponent,
+                TuringMachineJsonTabComponent,
+                TuringMachineRuleTabComponent,
+                TuringMachineStateTabComponent,
+                TuringMachineCharacterTabComponent
+            ],
             providers: [
+                ToasterService,
+                MatDialog,
                 {provide: Router, useValue: router},
-                {provide: TuringMachineService, useClass: TuringMachineServiceStub},
-                {provide: CalculationService, useValue: calculationService},
-                {provide: ToasterService, useValue: toasterService}]
+                {provide: ActivatedRoute, useValue: {snapshot: {paramMap: new Map([['entityId', 1]])}}},
+                {provide: TuringMachineService, useClass: MockTuringMachineService},
+                {provide: CalculationService, useClass: MockCalculationService},
+            ]
         }).compileComponents();
     }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(TuringMachineComponent);
         component = fixture.componentInstance;
+        calculationService = fixture.debugElement.injector.get(CalculationService);
+        toasterService = fixture.debugElement.injector.get(ToasterService);
+        spyOn(ToasterService.prototype, 'pop').and.callFake(() => []);
+        spyOn(MockCalculationService.prototype, 'calculate').and.callThrough();
         fixture.detectChanges();
     });
 
@@ -73,12 +84,13 @@ describe('TuringMachineComponent', () => {
         component.calculate();
         expect(toasterService.pop).toHaveBeenCalledTimes(1);
         expect(toasterService.pop).toHaveBeenCalledWith('error', 'Error', 'Input cannot be empty!');
+        expect(calculationService.calculate).toHaveBeenCalledTimes(0);
     });
 
     it('valid input should fire a service call', () => {
         component.input = 'ABC';
         component.calculate();
         expect(calculationService.calculate).toHaveBeenCalledTimes(1);
-        expect(calculationService.calculate).toHaveBeenCalledWith({states: [], rules: [], tapeCharacters: []}, 'ABC');
+        expect(calculationService.calculate).toHaveBeenCalledWith(anything(), 'ABC');
     });
 });

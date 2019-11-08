@@ -1,8 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ToasterModule} from "angular2-toaster";
+import {RouterTestingModule} from "@angular/router/testing";
 
 import {AppComponent} from './app.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {ToasterModule} from "angular2-toaster";
+import {HeaderComponent} from "./components/header/header.component";
+import {MatToolbarModule} from "@angular/material";
 
 describe('AppComponent', () => {
     let component: AppComponent;
@@ -10,9 +12,12 @@ describe('AppComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule,
-                    ToasterModule.forRoot()],
-            declarations: [AppComponent]
+            imports: [
+                MatToolbarModule,
+                RouterTestingModule,
+                ToasterModule.forRoot(),
+            ],
+            declarations: [AppComponent, HeaderComponent]
         }).compileComponents();
     }));
 

@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {_} from 'underscore';
 import {ToasterService} from "angular2-toaster";
 import {MatDialog} from "@angular/material";
 
 import {TuringMachine} from "../../../../dto/TuringMachine";
 import {StateDialogComponent} from "../../dialog/state-dialog/state-dialog.component";
+import {MachineStateValidator} from "../../../../validator/machine-state.validator";
 
 @Component({
     selector: 'app-turing-machine-state-tab',
@@ -23,7 +24,8 @@ export class TuringMachineStateTabComponent implements OnInit {
     private rowSelection = "single";
 
     constructor(private toasterService: ToasterService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private machineStateValidator: MachineStateValidator) {
     }
 
     public ngOnInit(): void {
@@ -90,8 +92,8 @@ export class TuringMachineStateTabComponent implements OnInit {
         }
         let selectedState = selectedRows[0];
         let ruleWhereStateIsUsed = _.find(this.turingMachine.rules, (rule) => {
-            return rule.fromState === selectedState.id
-                || rule.toState === selectedState.id;
+            return rule.fromState.id === selectedState.id
+                || rule.toState.id === selectedState.id;
         });
 
         if (ruleWhereStateIsUsed) {

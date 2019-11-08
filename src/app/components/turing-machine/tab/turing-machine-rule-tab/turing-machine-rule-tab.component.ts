@@ -1,9 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {_} from 'underscore';
 import {ToasterService} from "angular2-toaster";
 import {MatDialog} from "@angular/material";
 
 import {RuleDialogComponent} from "../../dialog/rule-dialog/rule-dialog.component";
 import {TuringMachine} from "../../../../dto/TuringMachine";
+import {TuringRule} from "../../../../dto/TuringRule";
+import {TuringRuleValidator} from "../../../../validator/turing-rule.validator";
 
 @Component({
     selector: 'app-turing-machine-rule-tab',
@@ -22,7 +25,8 @@ export class TuringMachineRuleTabComponent implements OnInit {
     private rowSelection = "single";
 
     constructor(private toasterService: ToasterService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private turingRuleValidator: TuringRuleValidator) {
     }
 
     public ngOnInit(): void {
@@ -44,12 +48,17 @@ export class TuringMachineRuleTabComponent implements OnInit {
         let ruleDialog = this.dialog.open(RuleDialogComponent, {
             height: '400px',
             width: '600px',
-            data: {turingMachine: this.turingMachine}
+            data: {
+                tapeCharacters: this.turingMachine.tapeCharacters,
+                states: this.turingMachine.states,
+                rules: this.turingMachine.rules
+            }
         });
-        ruleDialog.afterClosed().subscribe(result => {
-            if (result) {
-                console.log('The dialog was closed');
-                console.log(result);
+        ruleDialog.afterClosed().subscribe((newRule: TuringRule) => {
+            if (newRule) {
+                console.log(`New rule added! (${newRule.toString()})`);
+                this.turingMachine.rules.push(newRule);
+                console.log(this.turingMachine.rules);
                 this.turingMachineChange.emit(this.turingMachine);
             }
         });
@@ -66,12 +75,19 @@ export class TuringMachineRuleTabComponent implements OnInit {
         let ruleDialog = this.dialog.open(RuleDialogComponent, {
             height: '400px',
             width: '600px',
-            data: {rule: selectedRule, turingMachine: this.turingMachine}
+            data: {
+                rule: selectedRule,
+                tapeCharacters: this.turingMachine.tapeCharacters,
+                states: this.turingMachine.states,
+                rules: this.turingMachine.rules
+            }
         });
-        ruleDialog.afterClosed().subscribe(result => {
-            if (result) {
-                console.log('The dialog was closed');
-                console.log(result);
+        ruleDialog.afterClosed().subscribe((newRule: TuringRule) => {
+            if (newRule) {
+                console.log(`Rule edited! (${newRule.toString()})`);
+                this.turingMachine.rules.splice(this.turingMachine.rules.indexOf(newRule), 1);
+                this.turingMachine.rules.push(newRule);
+                console.log(this.turingMachine.rules);
                 this.turingMachineChange.emit(this.turingMachine);
             }
         });
@@ -83,10 +99,17 @@ export class TuringMachineRuleTabComponent implements OnInit {
             this.toasterService.pop('error', 'No selection', 'You must select a rule!');
             return;
         }
-        let selectedRule = selectedRows[0];
-        console.log(`delete rule ${selectedRule.id}`);
-        this.turingMachine.rules.splice(this.turingMachine.rules.indexOf(selectedRule), 1);
-        this.turingMachineChange.emit(this.turingMachine);
+        try {
+            this.turingRuleValidator.validateTuringRules(this.turingMachine.tapeCharacters,
+                this.turingMachine.states,
+                _.without(this.turingMachine.rules));
+            let selectedRule = selectedRows[0];
+            console.log(`delete rule ${selectedRule.id}`);
+            this.turingMachine.rules.splice(this.turingMachine.rules.indexOf(selectedRule), 1);
+            this.turingMachineChange.emit(this.turingMachine);
+        } catch (ex) {
+            this.toasterService.pop('error', 'Turing machine not valid', ex);
+        }
     }
 
     // Rule AG-grid ColumnDefs
