@@ -4,7 +4,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from "./components/header/header.component";
-import {MatToolbarModule} from "@angular/material";
+import {MatDialogModule, MatIconModule, MatToolbarModule} from "@angular/material";
 
 describe('AppComponent', () => {
     let component: AppComponent;
@@ -13,8 +13,10 @@ describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                MatIconModule,
                 MatToolbarModule,
                 RouterTestingModule,
+                MatDialogModule,
                 ToasterModule.forRoot(),
             ],
             declarations: [AppComponent, HeaderComponent]

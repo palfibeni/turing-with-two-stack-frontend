@@ -12,7 +12,7 @@ import {Calculation} from "../../../../dto/Calculation";
 })
 export class CalculationDifferenceTabComponent implements OnInit {
 
-    @Input("calculation") private calculation: Calculation;
+    @Input("calculation") public calculation: Calculation;
 
     public conditionLength;
     public conditionPageSize = 6;
@@ -29,6 +29,7 @@ export class CalculationDifferenceTabComponent implements OnInit {
     }
 
     public onPaging(params: PageEvent) {
+        console.log(this.calculation);
         this.conditionPageSize = params.pageSize;
         this.turingConditions = _.chunk(this.calculation.turingConditions, this.conditionPageSize)[params.pageIndex];
         this.twoStackConditions = _.chunk(_.last(this.calculation.twoStackConditions, this.conditionLength), this.conditionPageSize)[params.pageIndex];

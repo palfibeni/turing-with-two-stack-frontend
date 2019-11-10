@@ -39,6 +39,7 @@ import {TuringMachineCharacterTabComponent} from './components/turing-machine/ta
 import {CalculationDifferenceTabComponent} from './components/calculation/tab/calculation-difference-tab/calculation-difference-tab.component';
 import {CalculationTwoStackInitTabComponent} from './components/calculation/tab/calculation-two-stack-init-tab/calculation-two-stack-init-tab.component';
 import {HelpDialogComponent} from './components/header/help-dialog/help-dialog.component';
+import {TextFieldModule} from "@angular/cdk/text-field";
 
 @NgModule({
     imports: [
@@ -64,6 +65,7 @@ import {HelpDialogComponent} from './components/header/help-dialog/help-dialog.c
         MatPaginatorModule,
         MatAutocompleteModule,
         MatSelectModule,
+        TextFieldModule,
 
         // My imports
         AppRouting

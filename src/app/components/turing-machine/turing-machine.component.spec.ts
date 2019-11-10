@@ -23,6 +23,7 @@ import {
 import {MockTuringMachineService} from "../../testing/mock-turing-machine.service";
 import {MockCalculationService} from "../../testing/mock-calculation.service";
 import anything = jasmine.anything;
+import {TextFieldModule} from "@angular/cdk/text-field";
 
 describe('TuringMachineComponent', () => {
     let component: TuringMachineComponent;
@@ -43,8 +44,8 @@ describe('TuringMachineComponent', () => {
                 MatIconModule,
                 MatToolbarModule,
                 MatRadioModule,
-                MatRadioModule,
                 MatTabsModule,
+                TextFieldModule,
                 MatDialogModule,
                 ToasterModule.forRoot()],
             declarations: [

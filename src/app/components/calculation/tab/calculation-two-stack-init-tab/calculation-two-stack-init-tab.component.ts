@@ -28,6 +28,10 @@ export class CalculationTwoStackInitTabComponent implements OnInit {
     }
 
     public onPaging(params: PageEvent) {
+        if (!this.twoStackInitConditions.length) {
+            return;
+        }
+        console.log(this.twoStackInitConditions);
         this.conditionPageSize = params.pageSize;
         this.twoStackConditions = _.chunk(this.twoStackInitConditions, this.conditionPageSize)[params.pageIndex];
         this.twoStackConditionsFirst = _.chunk(this.twoStackConditions, this.conditionPageSize / 2)[0];

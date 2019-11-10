@@ -13,38 +13,22 @@ import {MatPaginatorModule, MatTabsModule, MatToolbarModule, MatTooltipModule} f
 import {Calculation} from "../../dto/Calculation";
 import {Condition} from "../../dto/Condition";
 import {MachineState} from "../../dto/MachineState";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {TestHelper} from "../../testing/test-helper";
 
-const startState: MachineState = createMachineState("START", true, false, false);
-const acceptState: MachineState = createMachineState("ACCEPT", false, true, false);
+const startState: MachineState = TestHelper.createMachineState("START", true, false, false);
+const acceptState: MachineState = TestHelper.createMachineState("ACCEPT", false, true, false);
 
 const calculationData: Calculation = {
     turingConditions: [
-        createCondition(startState, [], '_', []),
-        createCondition(acceptState, [], '_', [])
+        TestHelper.createCondition(startState, [], '_', []),
+        TestHelper.createCondition(acceptState, [], '_', [])
     ],
     twoStackConditions: [
-        createCondition(startState, [], '_', []),
-        createCondition(acceptState, [], '_', [])
+        TestHelper.createCondition(startState, [], '_', []),
+        TestHelper.createCondition(acceptState, [], '_', [])
     ]
 };
-
-function createCondition(currentState: MachineState, charactersBehind: Array<String>, currentPosition: String, charactersAhead: Array<String>): Condition {
-    let condition = new Condition();
-    condition.currentState = currentState;
-    condition.charactersBehind = charactersBehind;
-    condition.currentPosition = currentPosition;
-    condition.charactersAhead = charactersAhead;
-    return condition;
-}
-
-function createMachineState(name: String, start: boolean, accept: boolean, decline: boolean): MachineState {
-    let state = new MachineState();
-    state.name = name;
-    state.start = start;
-    state.accept = accept;
-    state.decline = decline;
-    return state;
-}
 
 describe('CalculationComponent', () => {
     let component: CalculationComponent;
@@ -59,6 +43,7 @@ describe('CalculationComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AgGridModule.withComponents([]),
+                BrowserAnimationsModule,
                 MatTabsModule,
                 MatToolbarModule,
                 MatPaginatorModule,

@@ -23,6 +23,33 @@
         </button>
     </mat-toolbar>
 
+
+    <div class="row">
+        <div class="col-md-3">
+            <label>
+                Name:
+            </label>
+        </div>
+        <div class="col-md-9">
+
+            <input style="height:1.8em;" type="text" [(ngModel)]="turingMachine.name">
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <label>
+                Description:
+            </label>
+        </div>
+        <div class="col-md-9">
+            <textarea style="height:1.8em; max-height: 300px; min-height: 50px;" [(ngModel)]='turingMachine.description' rows="30" cols="40">
+
+            </textarea>
+        </div>
+    </div>
+
     <mat-tab-group (selectedIndexChange)="tabSelectionChange($event)">
         <mat-tab label="Characters">
             <app-turing-machine-character-tab

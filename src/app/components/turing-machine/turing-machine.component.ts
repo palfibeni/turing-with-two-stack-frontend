@@ -47,6 +47,7 @@ export class TuringMachineComponent implements OnInit {
             this.turingMachineService.getTuringMachine(entityId).subscribe(turingMachine => {
                 console.log(turingMachine);
                 this.turingMachine = turingMachine;
+                this.initPage(this.turingMachine);
             });
         }
     }
@@ -61,8 +62,6 @@ export class TuringMachineComponent implements OnInit {
         }
         this.turingMachine = turingMachine;
         this.title = this.turingMachine.name;
-        this.stateTab.refreshTab();
-        this.ruleTab.refreshTab();
     }
 
     public calculate() {

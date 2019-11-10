@@ -10,12 +10,12 @@ import {Condition} from "../../../dto/Condition";
 })
 export class TwoStackConditionComponent implements OnInit {
 
-    @Input('condition') condition: Condition;
+    @Input('condition') public condition: Condition;
 
-    private charactersBehind: Array<String>;
-    private restCharactersBehind: Array<String>;
-    private charactersAhead: Array<String>;
-    private restCharactersAhead: Array<String>;
+    public charactersBehind: Array<String>;
+    public restCharactersBehind: Array<String>;
+    public charactersAhead: Array<String>;
+    public restCharactersAhead: Array<String>;
 
     constructor() {
     }
