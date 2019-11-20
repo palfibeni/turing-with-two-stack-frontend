@@ -54,6 +54,7 @@ export class TuringMachineStateTabComponent implements OnInit {
                 this.turingMachine.states.push(newState);
                 console.log(this.turingMachine.states);
                 this.turingMachineChange.emit(this.turingMachine);
+                this.refreshTab();
             }
         });
     }
@@ -81,6 +82,7 @@ export class TuringMachineStateTabComponent implements OnInit {
                 this.turingMachine.states.push(newState);
                 console.log(this.turingMachine.states);
                 this.turingMachineChange.emit(this.turingMachine);
+                this.refreshTab();
             }
         });
     }
@@ -105,6 +107,7 @@ export class TuringMachineStateTabComponent implements OnInit {
         console.log(`delete state ${selectedState.id}`);
         this.turingMachine.states.splice(this.turingMachine.states.indexOf(selectedState), 1);
         this.turingMachineChange.emit(this.turingMachine);
+        this.refreshTab();
     }
 
     // State AG-grid ColumnDefs

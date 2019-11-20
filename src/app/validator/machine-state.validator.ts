@@ -19,11 +19,11 @@ export class MachineStateValidator extends Validator {
             this.validateState(state);
         }
 
-        let startStates = _.filter(states, (state: MachineState) => state.accept);
-        if (startStates.size === 0) {
+        let startStates = _.filter(states, (state: MachineState) => state.start);
+        if (startStates.length === 0) {
             throw `There is no start state!`;
         }
-        if (startStates.size > 1) {
+        if (startStates.length > 1) {
             let statesJoined = this.joinStates(startStates);
             throw `More than one start state!  \n(${statesJoined})`;
         }

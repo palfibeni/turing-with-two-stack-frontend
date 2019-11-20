@@ -60,6 +60,7 @@ export class TuringMachineRuleTabComponent implements OnInit {
                 this.turingMachine.rules.push(newRule);
                 console.log(this.turingMachine.rules);
                 this.turingMachineChange.emit(this.turingMachine);
+                this.refreshTab();
             }
         });
     }
@@ -89,6 +90,7 @@ export class TuringMachineRuleTabComponent implements OnInit {
                 this.turingMachine.rules.push(newRule);
                 console.log(this.turingMachine.rules);
                 this.turingMachineChange.emit(this.turingMachine);
+                this.refreshTab();
             }
         });
     }
@@ -107,6 +109,7 @@ export class TuringMachineRuleTabComponent implements OnInit {
             console.log(`delete rule ${selectedRule.id}`);
             this.turingMachine.rules.splice(this.turingMachine.rules.indexOf(selectedRule), 1);
             this.turingMachineChange.emit(this.turingMachine);
+            this.refreshTab();
         } catch (ex) {
             this.toasterService.pop('error', 'Turing machine not valid', ex);
         }

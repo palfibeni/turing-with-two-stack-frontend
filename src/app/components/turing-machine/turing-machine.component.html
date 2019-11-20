@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div *ngIf="turingMachine.id" class="row">
         <div class="col-md-12">
             <h1>
                 {{title}}
@@ -8,12 +8,12 @@
     </div>
 
     <mat-toolbar class="grid-toolbar">
-        <label>
+        <label *ngIf="turingMachine.id">
             Input:
             <input style="height:1.8em;" type="text" [(ngModel)]="input">
         </label>
         <span class="space"></span>
-        <button class="mat-button mat-button-base" (click)="calculate()">
+        <button *ngIf="turingMachine.id" class="mat-button mat-button-base" (click)="calculate()">
             <mat-icon>play_arrow</mat-icon>
             <span class="mat-button-wrapper">Calculate</span>
         </button>
@@ -65,14 +65,14 @@
             </app-turing-machine-state-tab>
         </mat-tab>
 
-        <mat-tab label="Rules">
+        <mat-tab *ngIf="turingMachine.id" label="Rules">
             <app-turing-machine-rule-tab #ruleTab
                                          [turingMachine]="turingMachine"
                                          (turingMachineChange)="initPage($event)">
             </app-turing-machine-rule-tab>
         </mat-tab>
 
-        <mat-tab label="JSON">
+        <mat-tab *ngIf="turingMachine.id"  label="JSON">
             <app-turing-machine-json-tab
                     [turingMachine]="turingMachine"
                     (turingMachineChange)="initPage($event)">

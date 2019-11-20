@@ -58,17 +58,16 @@ export class TuringMachineJsonTabComponent implements OnInit {
             return;
         }
 
-        let turingMachineFromJson: TuringMachine = JSON.parse(this.jsonMachine);
-
         try {
+            let parsedTuringMachine: TuringMachine = JSON.parse(this.jsonMachine);
+            let rules = parsedTuringMachine.rules.map(rule => Object.assign(new TuringRule(), rule));
+            let states = parsedTuringMachine.states.map(state => Object.assign(new MachineState(), state));
+            let turingMachineFromJson = new TuringMachine(parsedTuringMachine.id, parsedTuringMachine.name, parsedTuringMachine.description, parsedTuringMachine.tapeCharacters, states, rules);
+
             this.turingMachineValidator.validateTuringMachine(turingMachineFromJson);
 
             this.jsonEdit = false;
-            let parsedTuringMachine: TuringMachine = JSON.parse(this.jsonMachine);
-
-            let rules = parsedTuringMachine.rules.map(rule => Object.assign(new TuringRule(), rule));
-            let states = parsedTuringMachine.states.map(state => Object.assign(new MachineState(), state));
-            this.turingMachine = new TuringMachine(parsedTuringMachine.id, parsedTuringMachine.name, parsedTuringMachine.description, parsedTuringMachine.tapeCharacters, states, rules);
+            this.turingMachine = turingMachineFromJson;
             this.turingMachineChange.emit(this.turingMachine);
         } catch (ex) {
             this.toasterService.pop('error', 'Not Valid JSON', ex);
