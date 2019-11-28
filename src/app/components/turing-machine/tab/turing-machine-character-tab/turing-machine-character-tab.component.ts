@@ -41,7 +41,7 @@ export class TuringMachineCharacterTabComponent implements OnInit {
     public deleteChar(): void {
         try {
             console.log(`delete char ${this.selectedChar}`);
-            if (!this.selectedChar) {
+            if (this.selectedChar === undefined) {
                 this.toasterService.pop('error', 'No selection', 'You must select a character!');
                 return;
             }

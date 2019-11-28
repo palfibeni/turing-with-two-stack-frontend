@@ -49,10 +49,10 @@ import {TextFieldModule} from "@angular/cdk/text-field";
         HttpClientModule,
         BrowserAnimationsModule,
         ToasterModule.forRoot(),
+        ReactiveFormsModule,
 
         // Material imports
         MatCheckboxModule,
-        ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,

@@ -45,7 +45,7 @@ export class TuringRuleValidator extends Validator {
 
         // Rules unknown State validation
         let stateIds = _.chain(states)
-            .filter(state => !_.isUndefined(state.id) && !_.isNull(state.id))
+            .filter(state => !_.isUndefined(state.id))
             .map((state: MachineState) => state.id)
             .value();
         let rulesWithUnknownState: Array<TuringRule> = rules.filter(
@@ -54,25 +54,38 @@ export class TuringRuleValidator extends Validator {
         );
         if (rulesWithUnknownState.length) {
             let rulesJoined = _.chain(rulesWithUnknownState).map((rule: TuringRule) => rule.toString()).join('\n, ');
-            throw `Unknown States found in rules! \n(${rulesJoined})`;
+            throw `Unknown States (By ID) found in rules! \n(${rulesJoined})`;
+        }
+        // Rules unknown State validation
+        let stateNames = _.chain(states)
+            .filter(state => !_.isUndefined(state.id))
+            .map((state: MachineState) => state.id)
+            .value();
+        let rulesWithUnknownStateName: Array<TuringRule> = rules.filter(
+            (rule: TuringRule) => !_.contains(stateNames, rule.fromState.name)
+                || !_.contains(stateNames, rule.toState.name)
+        );
+        if (rulesWithUnknownStateName.length) {
+            let rulesJoined = _.chain(rulesWithUnknownStateName).map((rule: TuringRule) => rule.toString()).join('\n, ');
+            throw `Unknown States (By name) found in rules! \n(${rulesJoined})`;
         }
     }
 
     private validateRule(rule: TuringRule): void {
         if (!rule.toState) {
-            throw `On rules to state field cannot be empty!`;
+            throw `Rule's toState field cannot be empty!`;
         }
-        if (!rule.readCharacter) {
-            throw `On rules read character field cannot be empty!`;
+        if (!rule.readCharacter || !rule.readCharacter.length || !rule.readCharacter.trim()) {
+            throw `Rule's readCharacter field cannot be empty!`;
         }
         if (!rule.fromState) {
-            throw `On rules from state field cannot be empty!`;
+            throw `Rule's fromState field cannot be empty!`;
         }
-        if (!rule.toState) {
-            throw `On rules write character field cannot be empty!`;
+        if (!rule.writeCharacter || !rule.writeCharacter.length || !rule.writeCharacter.trim()) {
+            throw `Rule's writeCharacter field cannot be empty!`;
         }
         if (!rule.direction) {
-            throw `On rules direction field cannot be empty!`;
+            throw `Rule's direction field cannot be empty!`;
         }
     }
 }

@@ -12,7 +12,7 @@
             <div class="col-md-6 mx-auto d-flex">
                 <mat-select required formControlName="fromState">
                     <mat-option>-- None --</mat-option>
-                    <mat-option *ngFor="let state of states" [value]="state.id">{{state.name}}</mat-option>
+                    <mat-option *ngFor="let state of states" [value]="state">{{state.name}}</mat-option>
                 </mat-select>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <div class="col-md-6 mx-auto d-flex">
                 <mat-select required formControlName="toState">
                     <mat-option>-- None --</mat-option>
-                    <mat-option *ngFor="let state of states" [value]="state.id">{{state.name}}</mat-option>
+                    <mat-option *ngFor="let state of states" [value]="state">{{state.name}}</mat-option>
                 </mat-select>
             </div>
         </div>

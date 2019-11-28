@@ -11,7 +11,7 @@
         creating a JSON for it, following these rules:
     </p>
     <ul>
-        <li>Reserved characters are '*' and '#'.</li>
+        <li>Reserved characters are '_', '*' and '#'.</li>
         <li>There should be no duplicated characters.</li>
         <li>Reserved state names are 'READ_INPUT_TO_LEFT' and 'COPY_INPUT_TO_RIGHT'.</li>
         <li>There should be no duplicated states, they are unique to name and id.</li>
@@ -29,6 +29,7 @@
         It can be split into two parts by definition, first reading the input to the left stack, and then move them the
         right stack.
         This is done with the usage of the reserved state names ('READ_INPUT_TO_LEFT' and 'COPY_INPUT_TO_RIGHT').<br>
+        The '_' is the empty character.<br>
         The '#' reserved character is the stack bottom symbol.<br>
         The '*' is the joker symbol, which is interpreted as any character outside of the stack bottom,
         and is used to create rule sets, instead of individual rules, because through the simulation of the

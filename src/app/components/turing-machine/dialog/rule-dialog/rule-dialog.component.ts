@@ -28,6 +28,7 @@ export class RuleDialogComponent implements OnInit {
                 private toasterService: ToasterService,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
         this.tapeCharacters = data.tapeCharacters;
+        this.tapeCharacters.push('_');
         this.states = data.states;
         this.rules = data.rules;
         if (data.rule) {
@@ -40,14 +41,14 @@ export class RuleDialogComponent implements OnInit {
         }
 
         this.machineRuleForm = fb.group({
-            fromState: this.rule.toState ? this.rule.fromState.id : null,
+            fromState: this.rule.toState ? this.rule.fromState : null,
             readCharacter: this.rule.readCharacter,
-            toState: this.rule.toState ? this.rule.toState.id : null,
+            toState: this.rule.toState ? this.rule.toState : null,
             writeCharacter: this.rule.writeCharacter,
             direction: this.rule.direction
         });
-        this.machineRuleForm.controls.fromState.patchValue(this.rule.toState ? this.rule.fromState.id : null);
-        this.machineRuleForm.controls.toState.patchValue(this.rule.toState ? this.rule.toState.id : null);
+        this.machineRuleForm.controls.fromState.patchValue(this.rule.toState ? this.rule.fromState : null);
+        this.machineRuleForm.controls.toState.patchValue(this.rule.toState ? this.rule.toState : null);
     }
 
     public ngOnInit(): void {

@@ -85,8 +85,8 @@ export class TuringMachineComponent implements OnInit {
         try {
             this.turingMachineValidator.validateTuringMachine(this.turingMachine);
             this.turingMachineService.saveTuringMachine(this.turingMachine).subscribe(
-                () => {
-                    location.reload();
+                (newMachine) => {
+                    this.router.navigate([`/turing-machine/${newMachine.id}`]);
                 }, ex => {
                     console.log(ex);
                     this.toasterService.pop('error', 'Error', ex.error.message);

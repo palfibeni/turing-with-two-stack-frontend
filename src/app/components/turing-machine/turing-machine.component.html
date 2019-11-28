@@ -65,14 +65,14 @@
             </app-turing-machine-state-tab>
         </mat-tab>
 
-        <mat-tab *ngIf="turingMachine.id" label="Rules">
+        <mat-tab label="Rules">
             <app-turing-machine-rule-tab #ruleTab
                                          [turingMachine]="turingMachine"
                                          (turingMachineChange)="initPage($event)">
             </app-turing-machine-rule-tab>
         </mat-tab>
 
-        <mat-tab *ngIf="turingMachine.id"  label="JSON">
+        <mat-tab label="JSON">
             <app-turing-machine-json-tab
                     [turingMachine]="turingMachine"
                     (turingMachineChange)="initPage($event)">

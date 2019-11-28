@@ -48,8 +48,8 @@ export class MachineStateValidator extends Validator {
     }
 
     private validateState(state: MachineState): void {
-        if (!state.name) {
-            throw `On states name field cannot be empty!`;
+        if (!state.name || !state.name.length || !state.name.trim()) {
+            throw `Name field cannot be empty!`;
         }
         if (state.name === 'READ_INPUT_TO_LEFT') {
             throw `"READ_INPUT_TO_LEFT" is a reserved state name!`;

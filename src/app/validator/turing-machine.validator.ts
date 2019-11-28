@@ -20,6 +20,10 @@ export class TuringMachineValidator extends Validator {
     }
 
     public validateCharacters(tapeCharacters: Array<String>) {
+        if (!tapeCharacters || !tapeCharacters.length) {
+            throw `Tape characters cannot be empty!`;
+        }
+
         // Characters duplicate validation
         let duplicateTapeCharacters = this.findDuplicates(tapeCharacters);
         if (duplicateTapeCharacters.size) {
@@ -36,12 +40,19 @@ export class TuringMachineValidator extends Validator {
         if (!character || !character.length || !character.trim()) {
             throw `Empty Character is not allowed!`;
         }
-        if (character === '#' || character === '*') {
-            throw `Reserved character is not allowed! ('#', '*')`;
+        if (character.length == 1) {
+            throw `Character is too long! ${character}`;
+        }
+        if (character === '_' || character === '#' || character === '*') {
+            throw `Reserved character is not allowed! ('_', '#', '*')`;
         }
     }
 
     public validateTuringMachine(turingMachine: TuringMachine): void {
+        if (!turingMachine.name || !turingMachine.name.length || !turingMachine.name.trim()) {
+            throw `Turing Machine!s name field cannot be empty!`;
+        }
+
         // Characters duplicate validation
         this.validateCharacters(turingMachine.tapeCharacters);
 
