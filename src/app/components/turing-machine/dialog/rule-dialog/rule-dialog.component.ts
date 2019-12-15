@@ -27,7 +27,7 @@ export class RuleDialogComponent implements OnInit {
                 private turingRuleValidator: TuringRuleValidator,
                 private toasterService: ToasterService,
                 @Inject(MAT_DIALOG_DATA) public data: any) {
-        this.tapeCharacters = data.tapeCharacters;
+        this.tapeCharacters = _.clone(data.tapeCharacters);
         this.tapeCharacters.push('_');
         this.states = data.states;
         this.rules = data.rules;

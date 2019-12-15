@@ -58,8 +58,8 @@ export class TuringRuleValidator extends Validator {
         }
         // Rules unknown State validation
         let stateNames = _.chain(states)
-            .filter(state => !_.isUndefined(state.id))
-            .map((state: MachineState) => state.id)
+            .filter(state => !_.isUndefined(state.name))
+            .map((state: MachineState) => state.name)
             .value();
         let rulesWithUnknownStateName: Array<TuringRule> = rules.filter(
             (rule: TuringRule) => !_.contains(stateNames, rule.fromState.name)

@@ -40,7 +40,7 @@ export class TuringMachineValidator extends Validator {
         if (!character || !character.length || !character.trim()) {
             throw `Empty Character is not allowed!`;
         }
-        if (character.length == 1) {
+        if (character.length > 1) {
             throw `Character is too long! ${character}`;
         }
         if (character === '_' || character === '#' || character === '*') {
